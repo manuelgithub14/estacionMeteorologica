@@ -1,0 +1,15 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Datos del registro
+{% endblock %}
+
+{% block content %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <a href="{{ path('registro_listar') }}" class="btn btn-info"><i class="fa fa-arrow-left"></i> Volver al listado</a>
+    {% if registro.id %}
+        <a href="{{ path('registro_eliminar', {'id': registro.id}) }}" class="btn btn-danger"><i class="fa fa-trash"></i> Eliminar registro</a>
+    {% endif %}
+    {{ form_end(form) }}
+{% endblock %}

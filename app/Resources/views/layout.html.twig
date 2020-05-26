@@ -2,15 +2,19 @@
 
 {% block body %}
     <nav class="navbar navbar-dark navbar-expand-md sticky-top bg-dark">
-        <a class="navbar-brand" href="{{ path('portada') }}"><i class="fas fa-umbrella"></i> Estación</a>
+        <a class="navbar-brand" href="{{ path('portada') }}"><i class="fas fa-home"></i> Estación</a>
         {% set nombre = app.request.get('_route') %}
         <ul class="navbar-nav mr-auto">
-            <li{% if nombre == 'portada' %} class="active"{% endif %}>
-                <a class="nav-link" href="{{ path('portada') }}"><i class="fas fa-home"></i> Portada</a>
-            </li>
-            <li{% if nombre starts with 'usuario' %} class="active"{% endif %}>
-                <a class="nav-link" href="{{ path('usuario_listar') }}"><i class="fas fa-users"></i> Usuarios</a>
-            </li>
+            {% if is_granted('ROLE_ADMIN') %}
+                <li{% if nombre starts with 'usuario' %} class="active"{% endif %}>
+                    <a class="nav-link" href="{{ path('usuario_listar') }}"><i class="fas fa-users"></i> Usuarios</a>
+                </li>
+            {% endif %}
+            {% if is_granted('ROLE_ADMIN') %}
+                <li{% if nombre starts with 'registro' %} class="active"{% endif %}>
+                    <a class="nav-link" href="{{ path('registro_listar') }}"><i class="fas fa-database"></i> Registros</a>
+                </li>
+            {% endif %}
         </ul>
         {% if app.user %}
             <span class="navbar-text"><a href="{{ path('usuario_perfil') }}">¡Hola {{ app.user.nombre }}!</a></span>

@@ -1,0 +1,40 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Listado de registros
+{% endblock %}
+
+{% block content %}
+    <h1>Listado de registros</h1>
+    <table class="table table-bordered table-striped table-hover shadow p-3 mb-5 bg-white rounded">
+        <thead class="thead-dark">
+        <tr>
+            <th>ID Registro</th>
+            <th>Fecha y hora</th>
+            <th>Semana del Año</th>
+            <th>Temperatura</th>
+            <th>Humedad</th>
+            <th>Lluvia</th>
+            <th>Viento</th>
+            <th>Dirección viento</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for registro in paginador.currentPageResults %}
+            <tr>
+                <td><a href="{{ path('registro_form', {'id': registro.id}) }}">{{ registro.id }}</a></td>
+                <td>{{ registro.fechaHora | date('d m Y - h i s') }}</td>
+                <td>{{ registro.semanaAnio }}</td>
+                <td>{{ registro.temperatura }}</td>
+                <td>{{ registro.humedad }}</td>
+                <td>{{ registro.lluvia }}</td>
+                <td>{{ registro.viento }}</td>
+                <td>{{ registro.dirViento }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if paginador and paginador.haveToPaginate %}
+        {{ pagerfanta(paginador, 'twitter_bootstrap4') }}
+    {% endif %}
+{% endblock %}

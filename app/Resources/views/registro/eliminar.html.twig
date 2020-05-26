@@ -1,0 +1,18 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Eliminar registro
+{% endblock %}
+
+{% block content %}
+    <h1>Eliminar registro</h1>
+
+    <div class="alert alert-warning">
+        ¿Seguro que desea eliminar el registro con ID {{ registro.id }}? Esta operación no se puede deshacer.
+    </div>
+
+    <form method="post">
+        <a href="{{ path('registro_form', {'id': registro.id}) }}" class="btn btn-info"><i class="fa fa-arrow-left"></i> Volver al registro</a>
+        <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Eliminar el registro</button>
+    </form>
+{% endblock %}
