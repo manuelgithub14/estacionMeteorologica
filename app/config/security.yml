@@ -13,7 +13,7 @@ security:
         ROLE_ADMIN: 'ROLE_USER'
 
     encoders:
-        AppBundle\Entity\Usuario: plaintext
+        AppBundle\Entity\Usuario: bcrypt
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs

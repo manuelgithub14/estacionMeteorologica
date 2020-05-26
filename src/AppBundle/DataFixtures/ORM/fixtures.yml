@@ -4,7 +4,7 @@ AppBundle\Entity\Usuario:
     apellidos: '<es_ES:lastName()> <es_ES:lastName()>'
     correo(unique): '<es_ES:email()>'
     nombreUsuario: 'admin<current()>'
-    clave: 'admin'
+    clave: <codificaClave('admin')>
     admin: true
 
 AppBundle\Entity\RegistroEstacion:
