@@ -1,45 +1,57 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <nav class="navbar navbar-dark navbar-expand-md sticky-top bg-dark">
-        <a class="navbar-brand" href="{{ path('portada') }}"><i class="fas fa-home"></i> Estación</a>
-        {% set nombre = app.request.get('_route') %}
-        <ul class="navbar-nav mr-auto">
-            {% if is_granted('ROLE_ADMIN') %}
-                <li{% if nombre starts with 'usuario' %} class="active"{% endif %}>
-                    <a class="nav-link" href="{{ path('usuario_listar') }}"><i class="fas fa-users"></i> Usuarios</a>
-                </li>
+    <main>
+        <header>
+            <img src="{{ asset('imagenes/Cabecera.png') }}">
+        </header>
+        <nav class="navbar navbar-dark navbar-expand-md sticky-top">
+            <a class="navbar-brand nav-link" href="{{ path('portada') }}"><i class="fas fa-home"></i> Estación</a>
+            {% set nombre = app.request.get('_route') %}
+            <ul class="navbar-nav mr-auto">
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li{% if nombre starts with 'usuario' %} class="active"{% endif %}>
+                        <a class="nav-link" href="{{ path('usuario_listar') }}"><i class="fas fa-users"></i> Usuarios</a>
+                    </li>
+                {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li{% if nombre starts with 'registro' %} class="active"{% endif %}>
+                        <a class="nav-link" href="{{ path('registro_listar') }}"><i class="fas fa-database"></i> Registros</a>
+                    </li>
+                {% endif %}
+            </ul>
+            {% if app.user %}
+                <span class="navbar-text"><a href="{{ path('usuario_perfil') }}">¡Hola {{ app.user.nombre }}!</a></span>
+                <a href="{{ path('usuario_salir') }}" class="ml-3 btn btn-primary"><i class="fas fa-power-off"></i> Salir</a>
+            {% else %}
+                <a href="{{ path('usuario_entrar') }}" class="btn btn-primary"><i class="fas fa-door-open"></i> Entrar</a>
             {% endif %}
-            {% if is_granted('ROLE_ADMIN') %}
-                <li{% if nombre starts with 'registro' %} class="active"{% endif %}>
-                    <a class="nav-link" href="{{ path('registro_listar') }}"><i class="fas fa-database"></i> Registros</a>
-                </li>
-            {% endif %}
-        </ul>
-        {% if app.user %}
-            <span class="navbar-text"><a href="{{ path('usuario_perfil') }}">¡Hola {{ app.user.nombre }}!</a></span>
-            <a href="{{ path('usuario_salir') }}" class="ml-3 btn btn-primary"><i class="fas fa-power-off"></i> Salir</a>
-        {% else %}
-            <a href="{{ path('usuario_entrar') }}" class="btn btn-primary"><i class="fas fa-door-open"></i> Entrar</a>
-        {% endif %}
-    </nav>
-    <div class="container">
-        {% for mensaje in app.session.flashBag.get('success') %}
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ mensaje }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        {% endfor %}
-        {% for mensaje in app.session.flashBag.get('error') %}
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                {{ mensaje }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        {% endfor %}
-        {% block content %}{% endblock %}
-    </div>
+        </nav>
+        <div class="container">
+            {% for mensaje in app.session.flashBag.get('success') %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ mensaje }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+            {% for mensaje in app.session.flashBag.get('error') %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ mensaje }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+            {% block content %}{% endblock %}
+        </div>
+        <footer>
+            <span>Colaboración entre alumnos del I.E.S. Himilce y I.E.S. Oretania</span>
+        </footer>
+    </main>
+{% endblock %}
+
+{% block javascripts2 %}
+    {% block javascripts3 %}{% endblock %}
 {% endblock %}

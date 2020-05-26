@@ -1,0 +1,49 @@
+body{
+    background-image: url("../imagenes/Fondo-Placa-circuito.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+main{
+    background-color: #F5F5F5;
+    box-shadow: 0 0 6px #000000;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1096px;
+}
+
+header{
+    background-color: #EDED89;
+}
+
+header img{
+    width: 100%;
+}
+
+footer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+nav.navbar, footer{
+    background-color: #00492B;
+    color: #FFFFFF;
+    font: 16px "Roboto Condensed", sans-serif;
+    height: 40px;
+    padding: 4px;
+}
+
+nav.navbar a.nav-link:hover{
+    background-color: #FFFFFF;
+    color: #000000;
+}
+
+nav.navbar ul.navbar-nav li a.nav-link:hover{
+    background-color: #FFFFFF;
+    color: #000000;
+}
+
+nav.navbar .nav-link:not(:last-child){
+    border-right: 1px solid black;
+}
