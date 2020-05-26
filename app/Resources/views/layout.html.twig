@@ -4,7 +4,7 @@
     <nav class="navbar navbar-dark navbar-expand-md sticky-top bg-dark">
         <a class="navbar-brand" href="{{ path('portada') }}"><i class="fas fa-umbrella"></i> Estación</a>
         {% set nombre = app.request.get('_route') %}
-        <ul class="navbar-nav">
+        <ul class="navbar-nav mr-auto">
             <li{% if nombre == 'portada' %} class="active"{% endif %}>
                 <a class="nav-link" href="{{ path('portada') }}"><i class="fas fa-home"></i> Portada</a>
             </li>
@@ -12,6 +12,12 @@
                 <a class="nav-link" href="{{ path('usuario_listar') }}"><i class="fas fa-users"></i> Usuarios</a>
             </li>
         </ul>
+        {% if app.user %}
+            <span class="navbar-text">¡Hola {{ app.user.nombre }}!</span>
+            <a href="{{ path('usuario_salir') }}" class="ml-3 btn btn-primary"><i class="fas fa-power-off"></i> Salir</a>
+        {% else %}
+            <a href="{{ path('usuario_entrar') }}" class="btn btn-primary"><i class="fas fa-door-open"></i> Entrar</a>
+        {% endif %}
     </nav>
     <div class="container">
         {% for mensaje in app.session.flashBag.get('success') %}

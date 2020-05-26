@@ -1,0 +1,16 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+    <h1>Entrar en la aplicación</h1>
+
+    {% if error %}
+        <div class="alert alert-danger">
+            {{ error.message }}
+        </div>
+    {% endif %}
+    <form action="{{ path('usuario_entrar') }}" method="post">
+        <input type="text" name="_username" placeholder="Nombre de usuario" value="{{ ultimo_usuario }}"{% if not ultimo_usuario %} autofocus="autofocus"{% endif %}>
+        <input type="password" name="_password" placeholder="Contraseña"{% if ultimo_usuario %} autofocus="autofocus"{% endif %}>
+        <button type="submit" class="btn btn-primary">Entrar</button>
+    </form>
+{% endblock %}
