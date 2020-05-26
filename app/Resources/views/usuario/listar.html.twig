@@ -1,0 +1,34 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Listado de usuarios
+{% endblock %}
+
+{% block content %}
+    <h1>Listado de usuarios</h1>
+    <a href="{{ path('usuario_nuevo') }}" class="btn btn-success"><i class="fa fa-plus"></i> Nuevo Usuario</a>
+
+    <table class="table table-bordered table-striped table-hover shadow p-3 mb-5 bg-white rounded">
+        <thead class="thead-dark">
+        <tr>
+            <th>Nombres</th>
+            <th>Apellidos</th>
+            <th>Correo</th>
+            <th>Nombres usuario</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for usuario in paginador.currentPageResults %}
+            <tr>
+                <td><a href="{{ path('usuario_form', {'id': usuario.id}) }}">{{ usuario.nombre }}</a></td>
+                <td>{{ usuario.apellidos }}</td>
+                <td>{{ usuario.correo }}</td>
+                <td>{{ usuario.nombreUsuario }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if paginador and paginador.haveToPaginate %}
+        {{ pagerfanta(paginador, 'twitter_bootstrap4') }}
+    {% endif %}
+{% endblock %}

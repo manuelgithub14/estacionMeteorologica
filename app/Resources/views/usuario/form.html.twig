@@ -1,0 +1,16 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Datos del usuario
+{% endblock %}
+
+{% block content %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <a href="{{ path('usuario_listar') }}" class="btn btn-info"><i class="fa fa-arrow-left"></i> Volver al listado</a>
+    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i>Guardar cambios</button>
+    {% if usuario.id %}
+        <a href="{{ path('usuario_eliminar', {'id': usuario.id}) }}" class="btn btn-danger"><i class="fa fa-trash"></i> Eliminar usuario</a>
+    {% endif %}
+    {{ form_end(form) }}
+{% endblock %}
