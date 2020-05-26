@@ -1,7 +1,80 @@
 {% extends 'layout.html.twig' %}
 
 {% block content %}
-    <h1>¡Bienvenido!</h1>
+    <p>Datos => <span id="datos"></span></p>
+
+    <div id="bloqueDatos">
+        <form action="{{ path('registro_nuevo') }}" method="post" id="formRegistroEstacion">
+            <input type="text" id="campoTemperatura" value="">
+            <input type="text" id="campoLluvia" value="">
+            <input type="text" id="campoHumedad" value="">
+            <input type="text" id="campoViento" value="">
+            <input type="text" id="campoDirViento" value="">
+        </form>
+    </div>
+
+    <canvas id="miGrafica"></canvas>
+{% endblock %}
+
+{% block javascripts3 %}
+    <script>
+        // Opciones globales
+        Chart.defaults.global.defaultFontFamily = 'Lato';
+        Chart.defaults.global.defaultFontSize = 25;
+        Chart.defaults.global.defaultFontColor = '#1f40ff';
+
+        // Gráfica
+        let miCanvas= document.getElementById("miGrafica").getContext('2d');
+
+        let miGrafica = new Chart(miCanvas, {
+            type: 'bar',
+            data:{
+                labels:['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],
+                datasets:[{
+                    label: 'Temperatura',
+                    data:[10, 16, 8, 21, 26, 30],
+                    backgroundColor:[
+                        'rgba(255, 99, 132, 0.6)',
+                        'rgba(54, 162, 235, 0.6)',
+                        'rgba(255, 206, 86, 0.6)',
+                        'rgba(75, 192, 192, 0.6)',
+                        'rgba(153, 102, 255, 0.6)',
+                        'rgba(255, 159, 64, 0.6)'
+                    ],
+                    borderWidth: 4,
+                    borderColor: '#777',
+                    hoverBorderWidth: 3,
+                    hoverBorderColor: '#000'
+                }]
+            },
+            options:{
+                title:{
+                    display: true,
+                    text: 'Temperatura recogida',
+                    fontSize: 30
+                },
+                legend:{
+                    display: false,
+                    position: 'right',
+                    labels: {
+                        fontColor: 'rgba(255, 206, 86, 0.6)'
+                    }
+                },
+                layout: {
+                    padding:{
+                        left: 50,
+                        right: 0,
+                        bottom: 0,
+                        top: 0
+                    }
+                },
+                // Info de cada 'barra'
+                tooltip:{
+                    enabled: true
+                }
+            }
+        });
+    </script>
 {% endblock %}
 
 {% block title %}
