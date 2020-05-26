@@ -178,7 +178,7 @@ class Usuario implements UserInterface
      */
     public function setClave($clave)
     {
-        $this->password = $clave;
+        $this->clave = $clave;
         return $this;
     }
 

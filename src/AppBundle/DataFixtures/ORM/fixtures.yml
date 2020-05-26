@@ -1,0 +1,63 @@
+AppBundle\Entity\Usuario:
+  admin_{1..5}:
+    nombre: '<es_ES:firstName()>'
+    apellidos: '<es_ES:lastName()> <es_ES:lastName()>'
+    correo(unique): '<es_ES:email()>'
+    nombreUsuario: 'admin<current()>'
+    clave: 'admin'
+    admin: true
+
+AppBundle\Entity\RegistroEstacion:
+  registro_1:
+    fechaHora: <dateTime()>
+    semanaAnio: '1-2020'
+    temperatura: 11
+    humedad: 12
+    lluvia: 13
+    viento: 14
+    dirViento: 'N'
+
+  registro_2:
+    fechaHora: <dateTime()>
+    semanaAnio: '1-2020'
+    temperatura: 11
+    humedad: 12
+    lluvia: 13
+    viento: 14
+    dirViento: 'N'
+
+  registro_3:
+    fechaHora: <dateTime()>
+    semanaAnio: '1-2020'
+    temperatura: 11
+    humedad: 12
+    lluvia: 13
+    viento: 14
+    dirViento: 'N'
+
+  registro_4:
+    fechaHora: <dateTime()>
+    semanaAnio: '2-2020'
+    temperatura: 21
+    humedad: 22
+    lluvia: 23
+    viento: 24
+    dirViento: 'N'
+
+  registro_5:
+    fechaHora: <dateTime()>
+    semanaAnio: '2-2020'
+    temperatura: 21
+    humedad: 22
+    lluvia: 23
+    viento: 24
+    dirViento: 'N'
+
+  registro_6:
+    fechaHora: <dateTime()>
+    semanaAnio: '2-2020'
+    temperatura: 21
+    humedad: 22
+    lluvia: 23
+    viento: 24
+    dirViento: 'N'
