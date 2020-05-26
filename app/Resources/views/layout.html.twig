@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <nav class="navbar navbar-dark navbar-expand-md sticky-top bg-dark">
+        <a class="navbar-brand" href="{{ path('portada') }}"><i class="fas fa-umbrella"></i> Estación</a>
+        {% set nombre = app.request.get('_route') %}
+        <ul class="navbar-nav">
+            <li{% if nombre == 'portada' %} class="active"{% endif %}>
+                <a class="nav-link" href="{{ path('portada') }}"><i class="fas fa-home"></i> Portada</a>
+            </li>
+        </ul>
+    </nav>
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+{% endblock %}
