@@ -18,54 +18,6 @@
     <script src="{{ asset('jquery/jquery-3.5.1.min.js') }}"></script>
     <script src="{{ asset('bootstrap-4.4.0-dist/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('chartjs/Chart.min.js') }}"></script>
-    <script>
-        $(function () {
-            //llamadaAjax();
-        });
-
-        function llamadaAjax() {
-            $.ajax('{{ asset('estacion.php') }}',{
-                dataType: 'text',
-                statusCode: {
-                    404: function () {
-                        alert('pagina no encontrada');
-                    }
-                },
-                error: function () {
-                    alert('ocurrio un error');
-                },
-                success: function (paginaDevuelta) {
-                    let miForm = document.getElementById("formRegistroEstacion");
-                    let datosDevueltos = paginaDevuelta.substring(paginaDevuelta.lastIndexOf('<body>') + 6, paginaDevuelta.lastIndexOf('</body>'));
-                    let conjuntoDatos = datosDevueltos.split('<br/>');
-
-                    for(let i = 0; i < conjuntoDatos.length; i++){
-                        let datos = conjuntoDatos[i].trim().split(': ');
-                        switch (datos[0]) {
-                            case 'temperatura':
-                                document.getElementById('campoTemperatura').value = datos[1];
-                                break;
-                            case 'humedad':
-                                document.getElementById('campoHumedad').value = datos[1];
-                                break;
-                            case 'lluvia':
-                                document.getElementById('campoLluvia').value = datos[1];
-                                break;
-                            case 'viento':
-                                document.getElementById('campoViento').value = datos[1];
-                                break;
-                            case 'dirViento':
-                                document.getElementById('campoDirViento').value = datos[1];
-                                break;
-                        }
-                    }
-                    document.getElementById('datos').textContent = conjuntoDatos;
-
-                    miForm.submit();
-                }
-            });
-        }
-    </script>
     {% block javascripts2 %}{% endblock %}
 {% endblock %}
 </body>

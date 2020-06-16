@@ -106,7 +106,7 @@ class RegistroEstacion
      * @param float $temperatura
      * @return RegistroEstacion
      */
-    public function setTemperatuta($temperatura)
+    public function setTemperatura($temperatura)
     {
         $this->temperatura = $temperatura;
         return $this;
