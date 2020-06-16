@@ -39,26 +39,10 @@ class RegistroEstacionController extends Controller
     }
 
     /**
-     * @Route("/registro/nuevo", name="registro_nuevo", methods={"GET", "POST"})
-     */
-    public function nuevoAction(Request $request)
-    {
-        $nuevoRegistro = new RegistroEstacion();
-        $nuevoRegistro->setFechaHora(new \DateTime('now'));
-        $nuevoRegistro->setSemanaAnio($nuevoRegistro->imprimirSemanaAnio());
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($nuevoRegistro);
-
-        $esNuevo = true;
-
-        return $this->formAction($request, $nuevoRegistro, $esNuevo);
-    }
-
-    /**
      * @Route("/registro/{id}", name="registro_form",
      *     requirements={"id"="\d+"}, methods={"GET","POST"})
      */
-    public function formAction(Request $request, RegistroEstacion $registroEstacion, $esNuevo = false)
+    public function formAction(Request $request, RegistroEstacion $registroEstacion)
     {
         $form = $this->createForm(RegistroEstacionType::class, $registroEstacion);
         $form->handleRequest($request);
@@ -69,8 +53,7 @@ class RegistroEstacionController extends Controller
 
         return $this->render('registro/form.html.twig', [
             'form' => $form->createView(),
-            'registro' => $registroEstacion,
-            'esNuevo' => $esNuevo
+            'registro' => $registroEstacion
         ]);
     }
 

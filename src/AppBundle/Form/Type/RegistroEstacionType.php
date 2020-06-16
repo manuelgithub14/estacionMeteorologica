@@ -5,10 +5,9 @@ namespace AppBundle\Form\Type;
 
 
 use AppBundle\Entity\RegistroEstacion;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,30 +19,28 @@ class RegistroEstacionType extends AbstractType
     {
         $builder
             ->add('fechaHora', DateTimeType::class, [
-                'format' => 'd m Y - h i s',
+                'input' => 'datetime',
+                'widget' => 'single_text',
+                'format' => 'dd/MM/yyyy - HH:mm:ss',
                 'label' => 'Fecha y hora',
                 'disabled' => true
             ])
-            ->add('semanaAnio', TextType::class, [
-                'label' => 'Semana del año',
-                'disabled' => true
-            ])
-            ->add('temperatura', IntegerType::class, [
+            ->add('temperatura', NumberType::class, [
                 'label' => 'Temperatura',
                 'scale' => 2,
                 'disabled' => true
             ])
-            ->add('humedad', IntegerType::class, [
+            ->add('humedad', NumberType::class, [
                 'label' => 'Humedad',
                 'scale' => 2,
                 'disabled' => true
             ])
-            ->add('lluvia', IntegerType::class, [
+            ->add('lluvia', NumberType::class, [
                 'label' => 'Lluvia',
                 'scale' => 2,
                 'disabled' => true
             ])
-            ->add('viento', IntegerType::class, [
+            ->add('viento', NumberType::class, [
                 'label' => 'Viento',
                 'scale' => 2,
                 'disabled' => true
