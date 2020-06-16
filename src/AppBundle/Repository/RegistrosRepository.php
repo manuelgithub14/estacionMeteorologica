@@ -18,6 +18,7 @@ class RegistrosRepository extends ServiceEntityRepository
         parent::__construct($registry, RegistroEstacion::class);
     }
 
+    // CONSULTAS DE REGISTROS
     public function findAllOrdenadosFechaQueryBuilder()
     {
         return $this->createQueryBuilder('r')
@@ -30,6 +31,16 @@ class RegistrosRepository extends ServiceEntityRepository
         return $this->findAllOrdenadosFechaQueryBuilder()
             ->getQuery()
             ->getResult();
+    }
+
+    public function findUltimoRegistro()
+    {
+        return $this->createQueryBuilder('r')
+            ->select('r')
+            ->orderBy('r.fechaHora', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getSingleResult();
     }
 
     // REGISTRO DE LOS DATOS OBTENIDOS AL LLAMAR AL COMANDO "app:obtener-datos"
