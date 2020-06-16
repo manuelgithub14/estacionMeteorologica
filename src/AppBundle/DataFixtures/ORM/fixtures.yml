@@ -8,56 +8,10 @@ AppBundle\Entity\Usuario:
     admin: true
 
 AppBundle\Entity\RegistroEstacion:
-  registro_1:
-    fechaHora: <dateTime()>
-    semanaAnio: '1-2020'
-    temperatura: 11
-    humedad: 12
-    lluvia: 13
-    viento: 14
-    dirViento: 'N'
-
-  registro_2:
-    fechaHora: <dateTime()>
-    semanaAnio: '1-2020'
-    temperatura: 11
-    humedad: 12
-    lluvia: 13
-    viento: 14
-    dirViento: 'N'
-
-  registro_3:
-    fechaHora: <dateTime()>
-    semanaAnio: '1-2020'
-    temperatura: 11
-    humedad: 12
-    lluvia: 13
-    viento: 14
-    dirViento: 'N'
-
-  registro_4:
-    fechaHora: <dateTime()>
-    semanaAnio: '2-2020'
-    temperatura: 21
-    humedad: 22
-    lluvia: 23
-    viento: 24
-    dirViento: 'N'
-
-  registro_5:
-    fechaHora: <dateTime()>
-    semanaAnio: '2-2020'
-    temperatura: 21
-    humedad: 22
-    lluvia: 23
-    viento: 24
-    dirViento: 'N'
-
-  registro_6:
-    fechaHora: <dateTime()>
-    semanaAnio: '2-2020'
-    temperatura: 21
-    humedad: 22
-    lluvia: 23
-    viento: 24
-    dirViento: 'N'
+  registro_{1..100}:
+    fechaHora: '<dateTimeBetween("-2 years", "now")>'
+    temperatura: '<randomFloat(2, -10, 45)>'
+    humedad: '<randomFloat(2, 0, 100)>'
+    lluvia: '<randomFloat(2, 0, 300)>'
+    viento: '<randomFloat(2, 0, 200)>'
+    dirViento: '<direccionAleatoria()>'

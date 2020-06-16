@@ -21,18 +21,11 @@ class RegistroEstacion
     private $id;
 
     /**
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(type="datetime", nullable=false)
      * @Assert\DateTime
-     * @var \DateTime
+     * @var /DateTime
      */
     private $fechaHora;
-
-    /**
-     * @ORM\Column(type="string", nullable=false)
-     * @Assert\NotBlank()
-     * @var string
-     */
-    private $semanaAnio;
 
     /**
      * @ORM\Column(type="float", nullable=false)
@@ -98,24 +91,6 @@ class RegistroEstacion
     public function setFechaHora($fechaHora)
     {
         $this->fechaHora = $fechaHora;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSemanaAnio()
-    {
-        return $this->semanaAnio;
-    }
-
-    /**
-     * @param string $semanaAnio
-     * @return RegistroEstacion
-     */
-    public function setSemanaAnio($semanaAnio)
-    {
-        $this->semanaAnio = $semanaAnio;
         return $this;
     }
 
@@ -207,17 +182,5 @@ class RegistroEstacion
     {
         $this->dirViento = $dirViento;
         return $this;
-    }
-
-    public function imprimirSemanaAnio(){
-        return $this->imprimirNumeroSemana() . '-' . $this->imprimirAnio();
-    }
-
-    public function imprimirNumeroSemana(){
-        return $this->getFechaHora()->format('W');
-    }
-
-    public function imprimirAnio(){
-        return $this->getFechaHora()->format('Y');
     }
 }
