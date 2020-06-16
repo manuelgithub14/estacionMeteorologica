@@ -11,7 +11,6 @@
         <tr>
             <th>ID Registro</th>
             <th>Fecha y hora</th>
-            <th>Semana del Año</th>
             <th>Temperatura</th>
             <th>Humedad</th>
             <th>Lluvia</th>
@@ -23,8 +22,7 @@
         {% for registro in paginador.currentPageResults %}
             <tr>
                 <td><a href="{{ path('registro_form', {'id': registro.id}) }}">{{ registro.id }}</a></td>
-                <td>{{ registro.fechaHora | date('d m Y - h i s') }}</td>
-                <td>{{ registro.semanaAnio }}</td>
+                <td>{{ registro.fechaHora | date('d/m/Y - H:i:s') }}</td>
                 <td>{{ registro.temperatura }}</td>
                 <td>{{ registro.humedad }}</td>
                 <td>{{ registro.lluvia }}</td>
