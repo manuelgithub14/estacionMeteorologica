@@ -9,7 +9,7 @@ main{
     box-shadow: 0 0 6px #000000;
     margin-left: auto;
     margin-right: auto;
-    width: 1096px;
+    width: 80%;
 }
 
 header{
@@ -26,12 +26,16 @@ footer{
     justify-content: center;
 }
 
+footer img{
+    width: 2em;
+}
+
 nav.navbar, footer{
     background-color: #00492B;
     color: #FFFFFF;
     font: 16px "Roboto Condensed", sans-serif;
-    height: 40px;
-    padding: 4px;
+    line-height: 2;
+    padding: 0.50em;
 }
 
 nav.navbar a.nav-link:hover{
@@ -44,6 +48,65 @@ nav.navbar ul.navbar-nav li a.nav-link:hover{
     color: #000000;
 }
 
-nav.navbar .nav-link:not(:last-child){
-    border-right: 1px solid black;
+.bloqueDatos{
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+}
+
+.bloqueFechaDatos{
+    text-align: center;
+}
+
+.bloqueFechaDatos p{
+    font-size: 3em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.bloqueDirViento{
+    display: flex;
+    justify-content: center;
+    padding: 1em;
+    margin: 1em;
+}
+
+.bloqueDirViento p{
+    box-shadow: 0 0 6px #000000;
+    font-size: 1.5em;
+    display: flex;
+    border: 1px solid black;
+    width: 50%;
+    height: 5em;
+    justify-content: center;
+    align-items: center;
+}
+
+.bloqueDirViento p span, .bloqueDatosSecundario p span{
+    font-size: 1.6em;
+    margin-left: 1em;
+}
+
+.bloqueDatosSecundario{
+    display: flex;
+    justify-content: space-around;
+    padding: 1em;
+}
+
+.bloqueDatosSecundario p{
+    box-shadow: 0 0 6px #000000;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-basis: 40%;
+    font-size: 1.5em;
+    border: 1px solid black;
+    border-radius: 15%;
+    padding: 1em;
+    height: 5em;
+    width: 8em;
+}
+
+.container{
+    min-height: 100vh;
 }
