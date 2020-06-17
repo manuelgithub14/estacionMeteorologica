@@ -1,0 +1,18 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Eliminar registros por año
+{% endblock %}
+
+{% block content %}
+    <h1>Eliminar registros por año</h1>
+
+    <div class="alert alert-warning">
+        ¿Seguro que desea eliminar los registros del año {{ anio }}? Esta operación no se puede deshacer.
+    </div>
+
+    <form method="post">
+        <a href="{{ path('registro_listar') }}" class="btn btn-info"><i class="fa fa-arrow-left"></i> Volver a los registros</a>
+        <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Eliminar los registros</button>
+    </form>
+{% endblock %}

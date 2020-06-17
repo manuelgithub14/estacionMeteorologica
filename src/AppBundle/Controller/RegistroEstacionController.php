@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\RegistroEstacion;
+use AppBundle\Form\Type\AniosType;
 use AppBundle\Form\Type\RegistroEstacionType;
 use AppBundle\Repository\RegistrosRepository;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
@@ -78,6 +79,68 @@ class RegistroEstacionController extends Controller
         }
         return $this->render('registro/eliminar.html.twig', [
             'registro' => $registroEstacion
+        ]);
+    }
+
+    // ELIMINAR REGISTROS POR AÑO
+    /**
+     * @Route("/registro/eliminar_anio/{anio}", name="registro_eliminar_anio", methods={"GET", "POST"})
+     * @Security("is_granted('ROLE_ADMIN')")
+     */
+    public function eliminarAnioAction(Request $request, RegistrosRepository $registrosRepository, $anio)
+    {
+        if ($request->getMethod() == 'POST') {
+            $registrosAnio = $registrosRepository->findAllPorAnio($anio);
+            $borrado = '';
+
+            foreach ($registrosAnio as $registro){
+                try {
+                    $em = $this->getDoctrine()->getManager();
+                    $em->remove($registro);
+                    $em->flush();
+                    $borrado = true;
+                }
+                catch (\Exception $e) {
+                    $borrado = false;
+                    break;
+                }
+            }
+
+            if($borrado){
+                $this->addFlash('success', 'Registros eliminados con éxito');
+                return $this->redirectToRoute('registro_listar');
+            }else{
+                $this->addFlash('error', 'Ha ocurrido un error al eliminar los registros');
+                return $this->redirectToRoute('registro_listar');
+            }
+        }
+
+        return $this->render('registro/eliminarAnio.html.twig', [
+            'anio' => $anio
+        ]);
+    }
+
+    /**
+     * @Route("/registro/anio", name="registro_form_anio", methods={"GET","POST"})
+     * @Security("is_granted('ROLE_ADMIN')")
+     */
+    public function formAnioAction(Request $request)
+    {
+        $datos = ['lista' => ''];
+        $form = $this->createForm(AniosType::class, $datos);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $this->getDoctrine()->getManager()->flush();
+
+            $anio = $datos['lista'];
+            dump($anio); // ANIO ESTA VACIO
+
+            return $this->redirectToRoute('registro_eliminar_anio', ['anio' => $anio]);
+        }
+
+        return $this->render('registro/formAnio.html.twig', [
+            'form' => $form->createView()
         ]);
     }
 }

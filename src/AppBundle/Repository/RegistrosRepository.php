@@ -43,6 +43,27 @@ class RegistrosRepository extends ServiceEntityRepository
             ->getSingleResult();
     }
 
+    public function findAllPorAnio($anio)
+    {
+        return $this->createQueryBuilder('r')
+            ->select('r')
+            ->where('YEAR(r.fechaHora) = :anio')
+            ->setParameter('anio', $anio)
+            ->getQuery()
+            ->getResult();
+    }
+
+    // CONSULTAS ANUALES
+    public function findAnios()
+    {
+        return $this->createQueryBuilder('r')
+            ->select('YEAR(r.fechaHora)')
+            ->distinct(true)
+            ->orderBy('YEAR(r.fechaHora)', 'ASC')
+            ->getQuery()
+            ->getArrayResult();
+    }
+
     // REGISTRO DE LOS DATOS OBTENIDOS AL LLAMAR AL COMANDO "app:obtener-datos"
     public function grabarDatos($fecha, $temperatura, $humedad, $lluvia, $viento, $dirViento){
         $nuevoRegistro = new RegistroEstacion();
