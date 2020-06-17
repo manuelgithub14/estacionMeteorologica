@@ -13,12 +13,50 @@
                     <li{% if nombre starts with 'usuario' %} class="active"{% endif %}>
                         <a class="nav-link" href="{{ path('usuario_listar') }}"><i class="fas fa-users"></i> Usuarios</a>
                     </li>
-                {% endif %}
-                {% if is_granted('ROLE_ADMIN') %}
                     <li{% if nombre starts with 'registro' %} class="active"{% endif %}>
                         <a class="nav-link" href="{{ path('registro_listar') }}"><i class="fas fa-database"></i> Registros</a>
                     </li>
                 {% endif %}
+                <li class="nav-item dropdown {% if nombre starts with 'temperatura' %} active{% endif %}">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-temperature-low"></i> Temperatura
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ path('temperatura_anual') }}">Anual</a>
+                        <a class="dropdown-item" href="#">Mensual</a>
+                        <a class="dropdown-item" href="#">Semanal</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown {% if nombre starts with 'humedad' %} active{% endif %}">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-water"></i> Humedad
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ path('humedad_anual') }}">Anual</a>
+                        <a class="dropdown-item" href="#">Mensual</a>
+                        <a class="dropdown-item" href="#">Semanal</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown {% if nombre starts with 'lluvia' %} active{% endif %}">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-cloud-showers-heavy"></i> Lluvia
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ path('lluvia_anual') }}">Anual</a>
+                        <a class="dropdown-item" href="#">Mensual</a>
+                        <a class="dropdown-item" href="#">Semanal</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown {% if nombre starts with 'viento' %} active{% endif %}">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-wind"></i> Viento
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ path('viento_anual') }}">Anual</a>
+                        <a class="dropdown-item" href="#">Mensual</a>
+                        <a class="dropdown-item" href="#">Semanal</a>
+                    </div>
+                </li>
             </ul>
             {% if app.user %}
                 <span class="navbar-text"><a href="{{ path('usuario_perfil') }}">¡Hola {{ app.user.nombre }}!</a></span>

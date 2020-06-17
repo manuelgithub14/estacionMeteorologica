@@ -64,6 +64,118 @@ class RegistrosRepository extends ServiceEntityRepository
             ->getArrayResult();
     }
 
+    public function findMesesPorAnio($anio)
+    {
+        return $this->createQueryBuilder('m')
+            ->select('MONTH(m.fechaHora)')
+            ->distinct(true)
+            ->where('YEAR(m.fechaHora) = :anio')
+            ->setParameter('anio', $anio)
+            ->orderBy('MONTH(m.fechaHora)', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    // CONSULTAS ANUALES TEMPERATURA
+    public function findMediaDiurnaPorMesTemperatura($anio, $mes)
+    {
+        return $this->createQueryBuilder('d')
+            ->select('AVG(d.temperatura)')
+            ->where("(DATE_FORMAT(d.fechaHora, '%H:%i:%s') >= '08:00:00' AND DATE_FORMAT(d.fechaHora, '%H:%i:%s') < '20:00:00') AND YEAR(d.fechaHora) = :anio AND MONTH(d.fechaHora) = :mes")
+            ->setParameter('anio', $anio)
+            ->setParameter('mes', $mes)
+            ->orderBy('MONTH(d.fechaHora)', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findMediaNocturnaPorMesTemperatura($anio, $mes)
+    {
+        return $this->createQueryBuilder('n')
+            ->select('AVG(n.temperatura)')
+            ->where("(DATE_FORMAT(n.fechaHora, '%H:%i:%s') >= '20:00:00' OR DATE_FORMAT(n.fechaHora, '%H:%i:%s') < '08:00:00') AND YEAR(n.fechaHora) = :anio AND MONTH(n.fechaHora) = :mes")
+            ->setParameter('anio', $anio)
+            ->setParameter('mes', $mes)
+            ->orderBy('MONTH(n.fechaHora)', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    // CONSULTAS ANUALES HUMEDAD
+    public function findMediaDiurnaPorMesHumedad($anio, $mes)
+    {
+        return $this->createQueryBuilder('d')
+            ->select('AVG(d.humedad)')
+            ->where("(DATE_FORMAT(d.fechaHora, '%H:%i:%s') >= '08:00:00' AND DATE_FORMAT(d.fechaHora, '%H:%i:%s') < '20:00:00') AND YEAR(d.fechaHora) = :anio AND MONTH(d.fechaHora) = :mes")
+            ->setParameter('anio', $anio)
+            ->setParameter('mes', $mes)
+            ->orderBy('MONTH(d.fechaHora)', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findMediaNocturnaPorMesHumedad($anio, $mes)
+    {
+        return $this->createQueryBuilder('n')
+            ->select('AVG(n.humedad)')
+            ->where("(DATE_FORMAT(n.fechaHora, '%H:%i:%s') >= '20:00:00' OR DATE_FORMAT(n.fechaHora, '%H:%i:%s') < '08:00:00') AND YEAR(n.fechaHora) = :anio AND MONTH(n.fechaHora) = :mes")
+            ->setParameter('anio', $anio)
+            ->setParameter('mes', $mes)
+            ->orderBy('MONTH(n.fechaHora)', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    // CONSULTAS ANUALES LLUVIA
+    public function findMediaDiurnaPorMesLluvia($anio, $mes)
+    {
+        return $this->createQueryBuilder('d')
+            ->select('AVG(d.lluvia)')
+            ->where("(DATE_FORMAT(d.fechaHora, '%H:%i:%s') >= '08:00:00' AND DATE_FORMAT(d.fechaHora, '%H:%i:%s') < '20:00:00') AND YEAR(d.fechaHora) = :anio AND MONTH(d.fechaHora) = :mes")
+            ->setParameter('anio', $anio)
+            ->setParameter('mes', $mes)
+            ->orderBy('MONTH(d.fechaHora)', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findMediaNocturnaPorMesLluvia($anio, $mes)
+    {
+        return $this->createQueryBuilder('n')
+            ->select('AVG(n.lluvia)')
+            ->where("(DATE_FORMAT(n.fechaHora, '%H:%i:%s') >= '20:00:00' OR DATE_FORMAT(n.fechaHora, '%H:%i:%s') < '08:00:00') AND YEAR(n.fechaHora) = :anio AND MONTH(n.fechaHora) = :mes")
+            ->setParameter('anio', $anio)
+            ->setParameter('mes', $mes)
+            ->orderBy('MONTH(n.fechaHora)', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    // CONSULTAS ANUALES VIENTO
+    public function findMediaDiurnaPorMesViento($anio, $mes)
+    {
+        return $this->createQueryBuilder('d')
+            ->select('AVG(d.viento)')
+            ->where("(DATE_FORMAT(d.fechaHora, '%H:%i:%s') >= '08:00:00' AND DATE_FORMAT(d.fechaHora, '%H:%i:%s') < '20:00:00') AND YEAR(d.fechaHora) = :anio AND MONTH(d.fechaHora) = :mes")
+            ->setParameter('anio', $anio)
+            ->setParameter('mes', $mes)
+            ->orderBy('MONTH(d.fechaHora)', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findMediaNocturnaPorMesViento($anio, $mes)
+    {
+        return $this->createQueryBuilder('n')
+            ->select('AVG(n.viento)')
+            ->where("(DATE_FORMAT(n.fechaHora, '%H:%i:%s') >= '20:00:00' OR DATE_FORMAT(n.fechaHora, '%H:%i:%s') < '08:00:00') AND YEAR(n.fechaHora) = :anio AND MONTH(n.fechaHora) = :mes")
+            ->setParameter('anio', $anio)
+            ->setParameter('mes', $mes)
+            ->orderBy('MONTH(n.fechaHora)', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
     // REGISTRO DE LOS DATOS OBTENIDOS AL LLAMAR AL COMANDO "app:obtener-datos"
     public function grabarDatos($fecha, $temperatura, $humedad, $lluvia, $viento, $dirViento){
         $nuevoRegistro = new RegistroEstacion();

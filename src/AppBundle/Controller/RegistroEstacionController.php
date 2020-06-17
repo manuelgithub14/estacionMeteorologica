@@ -143,4 +143,138 @@ class RegistroEstacionController extends Controller
             'form' => $form->createView()
         ]);
     }
+
+    // RUTAS DE TEMPERATURA
+    /**
+     * @Route("/registro/temperaturaAnual", name="temperatura_anual")
+     */
+    public function temperaturaAnualAction(Request $request, RegistrosRepository $registrosRepository)
+    {
+        $anios = $registrosRepository->findAnios();
+        $datos = [];
+        $anioElegido = '';
+
+        if ($request->getMethod() == 'POST') {
+            // submit con js al elegir el año, desde "registro/graficas/graficaTemperaturaAnual.html.twig"
+            $anioElegido = $_POST['select'];
+
+            $meses = $registrosRepository->findMesesPorAnio($anioElegido);
+            foreach ($meses as $mes){
+                $mediaDiurna = $registrosRepository->findMediaDiurnaPorMesTemperatura($anioElegido, $mes);
+                $mediaNocturna = $registrosRepository->findMediaNocturnaPorMesTemperatura($anioElegido, $mes);
+                $datos[] = [
+                    'mes' => $mes,
+                    'mediaDiurna' => $mediaDiurna,
+                    'mediaNocturna' => $mediaNocturna
+                ];
+            }
+
+            dump($datos);
+        }
+
+        return $this->render('registro/graficas/graficaTemperaturaAnual.html.twig', [
+            'datos' => $datos,
+            'anios' => $anios,
+            'anioElegido' => $anioElegido
+        ]);
+    }
+
+    // RUTAS DE HUMEDAD
+    /**
+     * @Route("/registro/humedadAnual", name="humedad_anual")
+     */
+    public function humedadAnualAction(Request $request, RegistrosRepository $registrosRepository)
+    {
+        $anios = $registrosRepository->findAnios();
+        $datos = [];
+        $anioElegido = '';
+
+        if ($request->getMethod() == 'POST') {
+            // submit con js al elegir el año
+            $anioElegido = $_POST['select'];
+
+            $meses = $registrosRepository->findMesesPorAnio($anioElegido);
+            foreach ($meses as $mes){
+                $mediaDiurna = $registrosRepository->findMediaDiurnaPorMesHumedad($anioElegido, $mes);
+                $mediaNocturna = $registrosRepository->findMediaNocturnaPorMesHumedad($anioElegido, $mes);
+                $datos[] = [
+                    'mes' => $mes,
+                    'mediaDiurna' => $mediaDiurna,
+                    'mediaNocturna' => $mediaNocturna
+                ];
+            }
+        }
+
+        return $this->render('registro/graficas/graficaHumedadAnual.html.twig', [
+            'datos' => $datos,
+            'anios' => $anios,
+            'anioElegido' => $anioElegido
+        ]);
+    }
+
+    // RUTAS DE LLUVIA
+    /**
+     * @Route("/registro/lluviaAnual", name="lluvia_anual")
+     */
+    public function lluviaAnualAction(Request $request, RegistrosRepository $registrosRepository)
+    {
+        $anios = $registrosRepository->findAnios();
+        $datos = [];
+        $anioElegido = '';
+
+        if ($request->getMethod() == 'POST') {
+            // submit con js al elegir el año
+            $anioElegido = $_POST['select'];
+
+            $meses = $registrosRepository->findMesesPorAnio($anioElegido);
+            foreach ($meses as $mes){
+                $mediaDiurna = $registrosRepository->findMediaDiurnaPorMesLluvia($anioElegido, $mes);
+                $mediaNocturna = $registrosRepository->findMediaNocturnaPorMesLluvia($anioElegido, $mes);
+                $datos[] = [
+                    'mes' => $mes,
+                    'mediaDiurna' => $mediaDiurna,
+                    'mediaNocturna' => $mediaNocturna
+                ];
+            }
+        }
+
+        return $this->render('registro/graficas/graficaLluviaAnual.html.twig', [
+            'datos' => $datos,
+            'anios' => $anios,
+            'anioElegido' => $anioElegido
+        ]);
+    }
+
+    // RUTAS DE VIENTO
+    /**
+     * @Route("/registro/vientoAnual", name="viento_anual")
+     */
+    public function vientoAnualAction(Request $request, RegistrosRepository $registrosRepository)
+    {
+        $anios = $registrosRepository->findAnios();
+        $datos = [];
+        $anioElegido = '';
+
+        if ($request->getMethod() == 'POST') {
+            // submit con js al elegir el año
+            $anioElegido = $_POST['select'];
+
+            $meses = $registrosRepository->findMesesPorAnio($anioElegido);
+            foreach ($meses as $mes){
+                $mediaDiurna = $registrosRepository->findMediaDiurnaPorMesViento($anioElegido, $mes);
+                $mediaNocturna = $registrosRepository->findMediaNocturnaPorMesViento($anioElegido, $mes);
+                $datos[] = [
+                    'mes' => $mes,
+                    'mediaDiurna' => $mediaDiurna,
+                    'mediaNocturna' => $mediaNocturna
+                ];
+            }
+        }
+
+        return $this->render('registro/graficas/graficaVientoAnual.html.twig', [
+            'datos' => $datos,
+            'anios' => $anios,
+            'anioElegido' => $anioElegido
+        ]);
+    }
 }

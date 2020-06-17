@@ -1,0 +1,118 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Grafica de Lluvia
+{% endblock %}
+
+{% block content %}
+    <form id="formDatosPeriodo" action="{{ path('lluvia_anual') }}" method="post">
+        <div>
+            <select id="selectAnios" name="select">
+                <option value="" selected>Elija un año...</option>
+                {% for anio in anios %}
+                    <option value="{{ anio[1] }}">{{ anio[1] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </form>
+
+    <canvas id="miGrafica"></canvas>
+{% endblock %}
+
+{% block javascripts3 %}
+    <script>
+        $('#selectAnios').change(function (e) {
+            $('#formDatosPeriodo').submit();
+            generarGrafica({{ datos|json_encode|raw }});
+        });
+
+        function generarGrafica(datos) {
+            var arrayMeses = [];
+            var arrayMediasDiurnas = [];
+            var arrayMediasNocturnas = [];
+
+            for(let i = 0; i < datos.length; i++){
+                arrayMeses.push(datos[i]['mes'][1]);
+                arrayMediasDiurnas.push(datos[i]['mediaDiurna'][0][1]);
+                arrayMediasNocturnas.push(datos[i]['mediaNocturna'][0][1]);
+
+                console.log(datos[i]['mes'][1]);
+                console.log(datos[i]['mediaDiurna'][0][1]);
+                console.log(datos[i]['mediaNocturna'][0][1]);
+            }
+
+            // Opciones globales
+            Chart.defaults.global.defaultFontFamily = 'Lato';
+            Chart.defaults.global.defaultFontSize = 25;
+            Chart.defaults.global.defaultFontColor = '#1f40ff';
+
+            // Gráfica
+            let miCanvas= document.getElementById("miGrafica").getContext('2d');
+
+            let miGrafica = new Chart(miCanvas, {
+                type: 'bar',
+                data:{
+                    labels:arrayMeses,
+                    datasets:[{
+                        label: 'Media diurna',
+                        data:arrayMediasDiurnas,
+                        backgroundColor:[
+                            'rgba(255, 99, 132, 0.6)',
+                            'rgba(54, 162, 235, 0.6)',
+                            'rgba(255, 206, 86, 0.6)',
+                            'rgba(75, 192, 192, 0.6)',
+                            'rgba(153, 102, 255, 0.6)',
+                            'rgba(255, 159, 64, 0.6)'
+                        ],
+                        borderWidth: 4,
+                        borderColor: '#777',
+                        hoverBorderWidth: 3,
+                        hoverBorderColor: '#000'
+                    },
+                        {
+                            label: 'Media nocturna',
+                            data:arrayMediasNocturnas,
+                            backgroundColor:[
+                                'rgba(255, 99, 132, 0.6)',
+                                'rgba(54, 162, 235, 0.6)',
+                                'rgba(255, 206, 86, 0.6)',
+                                'rgba(75, 192, 192, 0.6)',
+                                'rgba(153, 102, 255, 0.6)',
+                                'rgba(255, 159, 64, 0.6)'
+                            ],
+                            borderWidth: 4,
+                            borderColor: '#777',
+                            hoverBorderWidth: 3,
+                            hoverBorderColor: '#000'
+                        }]
+                },
+                options:{
+                    title:{
+                        display: true,
+                        text: 'Lluvia recogida',
+                        fontSize: 30
+                    },
+                    legend:{
+                        display: false,
+                        position: 'right',
+                        labels: {
+                            fontColor: 'rgba(255, 206, 86, 0.6)'
+                        }
+                    },
+                    layout: {
+                        padding:{
+                            left: 50,
+                            right: 0,
+                            bottom: 0,
+                            top: 0
+                        }
+                    },
+                    // Info de cada 'barra'
+                    tooltip:{
+                        enabled: true
+                    }
+                }
+            });
+        }
+    </script>
+{% endblock %}
