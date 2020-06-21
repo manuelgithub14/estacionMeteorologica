@@ -20,6 +20,9 @@
                         <li{% if nombre starts with 'registro' %} class="active"{% endif %}>
                             <a class="nav-link" href="{{ path('registro_listar') }}"><i class="fas fa-database"></i> Registros</a>
                         </li>
+                        <li{% if nombre starts with 'configurar' %} class="active"{% endif %}>
+                            <a class="nav-link" href="{{ path('configurar') }}"><i class="far fa-sun"></i> Configurar</a>
+                        </li>
                     {% endif %}
                     <li class="nav-item dropdown {% if nombre starts with 'temperatura' %} active{% endif %}">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

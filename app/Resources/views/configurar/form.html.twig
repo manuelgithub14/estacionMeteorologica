@@ -1,0 +1,14 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Configuración
+{% endblock %}
+
+{% block content %}
+    <h1 class="titulo">Configuración</h1>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <a href="{{ path('portada') }}" class="btn btn-info"><i class="fa fa-arrow-left"></i> Volver</a>
+    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i>Guardar cambios</button>
+    {{ form_end(form) }}
+{% endblock %}
