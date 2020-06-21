@@ -3,67 +3,75 @@
 {% block body %}
     <main>
         <header>
-            <img src="{{ asset('imagenes/Cabecera.png') }}">
+            <img src="{{ asset('recursos/imagenes/Cabecera.png') }}">
         </header>
-        <nav class="navbar navbar-dark navbar-expand-md sticky-top">
+        <nav class="navbar navbar-dark navbar-expand-lg sticky-top">
             <a class="navbar-brand nav-link" href="{{ path('portada') }}"><i class="fas fa-home"></i> Estación</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContenido" aria-controls="navbarContenido" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             {% set nombre = app.request.get('_route') %}
-            <ul class="navbar-nav mr-auto">
-                {% if is_granted('ROLE_ADMIN') %}
-                    <li{% if nombre starts with 'usuario' %} class="active"{% endif %}>
-                        <a class="nav-link" href="{{ path('usuario_listar') }}"><i class="fas fa-users"></i> Usuarios</a>
+            <div class="collapse navbar-collapse" id="navbarContenido">
+                <ul class="navbar-nav mr-auto">
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li{% if nombre starts with 'usuario' %} class="active"{% endif %}>
+                            <a class="nav-link" href="{{ path('usuario_listar') }}"><i class="fas fa-users"></i> Usuarios</a>
+                        </li>
+                        <li{% if nombre starts with 'registro' %} class="active"{% endif %}>
+                            <a class="nav-link" href="{{ path('registro_listar') }}"><i class="fas fa-database"></i> Registros</a>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item dropdown {% if nombre starts with 'temperatura' %} active{% endif %}">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-temperature-low"></i> Temperatura
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ path('temperatura_anual') }}">Anual</a>
+                            <a class="dropdown-item" href="{{ path('temperatura_mensual') }}">Mensual</a>
+                            <a class="dropdown-item" href="{{ path('temperatura_semanal') }}">Semanal</a>
+                        </div>
                     </li>
-                    <li{% if nombre starts with 'registro' %} class="active"{% endif %}>
-                        <a class="nav-link" href="{{ path('registro_listar') }}"><i class="fas fa-database"></i> Registros</a>
+                    <li class="nav-item dropdown {% if nombre starts with 'humedad' %} active{% endif %}">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-water"></i> Humedad
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ path('humedad_anual') }}">Anual</a>
+                            <a class="dropdown-item" href="{{ path('humedad_mensual') }}">Mensual</a>
+                            <a class="dropdown-item" href="{{ path('humedad_semanal') }}">Semanal</a>
+                        </div>
                     </li>
+                    <li class="nav-item dropdown {% if nombre starts with 'lluvia' %} active{% endif %}">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-cloud-showers-heavy"></i> Lluvia
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ path('lluvia_anual') }}">Anual</a>
+                            <a class="dropdown-item" href="{{ path('lluvia_mensual') }}">Mensual</a>
+                            <a class="dropdown-item" href="{{ path('lluvia_semanal') }}">Semanal</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown {% if nombre starts with 'viento' %} active{% endif %}">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-wind"></i> Viento
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ path('viento_anual') }}">Anual</a>
+                            <a class="dropdown-item" href="{{ path('viento_mensual') }}">Mensual</a>
+                            <a class="dropdown-item" href="{{ path('viento_semanal') }}">Semanal</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('configurar') }}"><i class="far fa-sun"></i> Configurar</a>
+                    </li>
+                </ul>
+                {% if app.user %}
+                    <span class="navbar-text"><a href="{{ path('usuario_perfil') }}">¡Hola {{ app.user.nombre }}!</a></span>
+                    <a href="{{ path('usuario_salir') }}" class="ml-3 btn btn-primary"><i class="fas fa-power-off"></i> Salir</a>
+                {% else %}
+                    <a href="{{ path('usuario_entrar') }}" class="btn btn-primary"><i class="fas fa-door-open"></i> Entrar</a>
                 {% endif %}
-                <li class="nav-item dropdown {% if nombre starts with 'temperatura' %} active{% endif %}">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-temperature-low"></i> Temperatura
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ path('temperatura_anual') }}">Anual</a>
-                        <a class="dropdown-item" href="#">Mensual</a>
-                        <a class="dropdown-item" href="#">Semanal</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown {% if nombre starts with 'humedad' %} active{% endif %}">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-water"></i> Humedad
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ path('humedad_anual') }}">Anual</a>
-                        <a class="dropdown-item" href="#">Mensual</a>
-                        <a class="dropdown-item" href="#">Semanal</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown {% if nombre starts with 'lluvia' %} active{% endif %}">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-cloud-showers-heavy"></i> Lluvia
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ path('lluvia_anual') }}">Anual</a>
-                        <a class="dropdown-item" href="#">Mensual</a>
-                        <a class="dropdown-item" href="#">Semanal</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown {% if nombre starts with 'viento' %} active{% endif %}">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-wind"></i> Viento
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ path('viento_anual') }}">Anual</a>
-                        <a class="dropdown-item" href="#">Mensual</a>
-                        <a class="dropdown-item" href="#">Semanal</a>
-                    </div>
-                </li>
-            </ul>
-            {% if app.user %}
-                <span class="navbar-text"><a href="{{ path('usuario_perfil') }}">¡Hola {{ app.user.nombre }}!</a></span>
-                <a href="{{ path('usuario_salir') }}" class="ml-3 btn btn-primary"><i class="fas fa-power-off"></i> Salir</a>
-            {% else %}
-                <a href="{{ path('usuario_entrar') }}" class="btn btn-primary"><i class="fas fa-door-open"></i> Entrar</a>
-            {% endif %}
+            </div>
         </nav>
         <div class="container">
             {% for mensaje in app.session.flashBag.get('success') %}
@@ -85,7 +93,7 @@
             {% block content %}{% endblock %}
         </div>
         <footer>
-            <span>Colaboración entre alumnos del I.E.S. Himilce <img src="{{ asset('imagenes/logoHimilce.jpg') }}"> y I.E.S. Oretania <img src="{{ asset('imagenes/logoOretania.jpg') }}"></span>
+            <span>Colaboración entre alumnos del I.E.S. Himilce <img src="{{ asset('recursos/imagenes/logoHimilce.jpg') }}"> y I.E.S. Oretania <img src="{{ asset('recursos/imagenes/logoOretania.jpg') }}"></span>
         </footer>
     </main>
 {% endblock %}

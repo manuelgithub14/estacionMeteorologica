@@ -15,7 +15,7 @@
                 <p>Viento: <span id="mostrarViento">{{ ultimoRegistro.viento }} km/h</span></p>
             </div>
             <div class="bloqueDirViento">
-                <p>Direccion Viento: <span id="mostrarDirViento">{{ ultimoRegistro.dirViento }}</span></p>
+                <img src="" alt="">
             </div>
         </div>
     {% else %}
@@ -28,9 +28,37 @@
 {% block javascripts3 %}
     <script>
         var meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-        var m = {{ ultimoRegistro.fechaHora|date('m')|json_encode|raw }};
-
+        var m = {{ ultimoRegistro.fechaHora|date('m') }};
         document.getElementById('spanMes').textContent = meses[m - 1];
+
+        var rutaBrujula = {{ asset('recursos/imagenes/brujula/')|json_encode|raw }};
+        var direccion = {{ ultimoRegistro.dirViento|json_encode|raw }}
+            document.querySelector(".bloqueDirViento img").src = rutaBrujula + direccion + '.png';
+
+        var temperatura = {{ ultimoRegistro.temperatura }};
+        var humedad = {{ ultimoRegistro.humedad }};
+        var lluvia = {{ ultimoRegistro.lluvia }};
+        var viento = {{ ultimoRegistro.viento }};
+        if(temperatura > 30){
+            document.getElementById("mostrarTemperatura").classList.add("alerta");
+        }else if(temperatura < 10){
+            document.getElementById("mostrarTemperatura").classList.add("sinAlerta");
+        }
+        if(humedad > 70){
+            document.getElementById("mostrarHumedad").classList.add("alerta");
+        }else if(humedad < 30){
+            document.getElementById("mostrarHumedad").classList.add("sinAlerta");
+        }
+        if(lluvia > 30){
+            document.getElementById("mostrarLluvia").classList.add("alerta");
+        }else if(lluvia < 15){
+            document.getElementById("mostrarLluvia").classList.add("sinAlerta");
+        }
+        if(viento > 50){
+            document.getElementById("mostrarViento").classList.add("alerta");
+        }else if(viento < 20){
+            document.getElementById("mostrarViento").classList.add("sinAlerta");
+        }
     </script>
 {% endblock %}
 
