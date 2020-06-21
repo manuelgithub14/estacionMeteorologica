@@ -47,7 +47,7 @@ class UsuarioType extends AbstractType
                 ->add('nombreUsuario', TextType::class, [
                     'label' => 'Usuario'
                 ])
-                ->add('password', RepeatedType::class, [
+                ->add('clave', RepeatedType::class, [
                     'type' => PasswordType::class,
                     'invalid_message' => 'Las dos contraseñas no coinciden',
                     'first_options'  => [

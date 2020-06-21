@@ -31,7 +31,7 @@ class LoadFixtures extends Fixture
 
     public function direccionAleatoria()
     {
-        $direcciones = ["ESE","ENE","E  ","SSE","SE ","SSO","S  ","NNE","NE ","OSO","SO ","NNO","N  ","ONO","NO ","O  "];
+        $direcciones = ["ESE","ENE","E","SSE","SE","SSO","S","NNE","NE","OSO","SO","NNO","N","ONO","NO","O"];
 
         return $direcciones[array_rand($direcciones, 1)];
     }

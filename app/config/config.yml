@@ -64,6 +64,8 @@ doctrine:
                 YEAR: DoctrineExtensions\Query\Mysql\Year
                 DATE_FORMAT: DoctrineExtensions\Query\Mysql\DateFormat
                 WEEK: DoctrineExtensions\Query\Mysql\Week
+                DAY: DoctrineExtensions\Query\Mysql\Day
+                ROUND: DoctrineExtensions\Query\Mysql\Round
 
 # Swiftmailer Configuration
 swiftmailer:
