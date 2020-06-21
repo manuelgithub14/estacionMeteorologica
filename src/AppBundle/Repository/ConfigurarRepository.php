@@ -18,11 +18,12 @@ class ConfigurarRepository extends ServiceEntityRepository
         parent::__construct($registry, Configurar::class);
     }
 
-    public function findById()
+    public function findOneByNombre($nombre)
     {
         return $this->createQueryBuilder('c')
             ->select('c')
-            ->where('c.id is not null')
+            ->where('c.nombre = :nombre')
+            ->setParameter('nombre', $nombre)
             ->getQuery()
             ->getResult();
     }

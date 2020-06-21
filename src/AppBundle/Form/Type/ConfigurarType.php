@@ -14,7 +14,7 @@ class ConfigurarType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nombre', TimeType::class, array(
+            ->add('valor', TimeType::class, array(
                 'label' => 'Inicio Horario Diurno (acaba en +12h)',
                 'input' => 'datetime',
                 'with_seconds' => true,

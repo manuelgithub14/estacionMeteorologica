@@ -18,15 +18,14 @@ class ConfigurarController extends Controller
      */
     public function configurarAction(Request $request, ConfigurarRepository $configurarRepository)
     {
-        $configurar = $configurarRepository->findById();
+        /* @var Configurar */
+        $configurar = $configurarRepository->findOneByNombre('inicioHorarioDiurno');
 
         if(!$configurar){
-            $config = new Configurar();
+            $configurar = new Configurar();
             $em = $this->getDoctrine()->getManager();
-            $em->persist($config);
-            $em->flush();
+            $em->persist($configurar);
         }
-        $configurar = $configurarRepository->findById();
 
         $form = $this->createForm(ConfigurarType::class, $configurar);
         $form->handleRequest($request);
@@ -36,7 +35,6 @@ class ConfigurarController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->flush();
                 $this->addFlash('success', 'Cambios en la configuración guardados con éxito');
-                return $this->redirectToRoute('portada');
             }
             catch(\Exception $e) {
                 $this->addFlash('error', 'Ha ocurrido un error al guardar los cambios');
