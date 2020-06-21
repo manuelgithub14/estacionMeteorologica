@@ -30,7 +30,7 @@ class ObtenerDatosCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         // RUTA DE LA PAGINA DE ARDUINO
-        $paginaArduino = file_get_contents('/home/manuel/Documentos/HLC/Practicas/estacionMeteorologica/web/estacion.php');
+        $paginaArduino = file_get_contents('web/estacion.php');
 
         $datosDevueltos = substr($paginaArduino, strpos($paginaArduino,'<body>')+6, strrpos($paginaArduino, '</body>') - strpos($paginaArduino,'<body>')-6);
         $conjuntoDatos = explode('<br />', $datosDevueltos);
