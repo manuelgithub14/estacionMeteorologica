@@ -5,16 +5,16 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Listado de usuarios</h1>
+    <h1 class="titulo">Listado de usuarios</h1>
     <a href="{{ path('usuario_nuevo') }}" class="btn btn-success"><i class="fa fa-plus"></i> Nuevo Usuario</a>
 
-    <table class="table table-bordered table-striped table-hover shadow p-3 mb-5 bg-white rounded">
+    <table id="miTabla" class="table table-bordered table-striped table-hover shadow p-3 mb-5 bg-white rounded tablesorter">
         <thead class="thead-dark">
         <tr>
-            <th>Nombres</th>
+            <th>Nombre</th>
             <th>Apellidos</th>
             <th>Correo</th>
-            <th>Nombres usuario</th>
+            <th>Usuario</th>
         </tr>
         </thead>
         <tbody>
@@ -31,4 +31,27 @@
     {% if paginador and paginador.haveToPaginate %}
         {{ pagerfanta(paginador, 'twitter_bootstrap4') }}
     {% endif %}
+{% endblock %}
+
+{% block javascripts3 %}
+    <script>
+        if(document.querySelector("ul.pagination")){
+            var spanAnterior = document.querySelector("li.prev span");
+            var enlaceAnterior = document.querySelector("li.prev a");
+            var spanSiguiente = document.querySelector("li.next span");
+            var enlaceSiguiente = document.querySelector("li.next a");
+
+            if(spanAnterior){
+                spanAnterior.innerHTML = "← Anterior";
+            }else{
+                enlaceAnterior.innerHTML = "← Anterior";
+            }
+
+            if(spanSiguiente){
+                spanSiguiente.innerHTML = "Siguiente →";
+            }else{
+                enlaceSiguiente.innerHTML = "Siguiente →";
+            }
+        }
+    </script>
 {% endblock %}
