@@ -1,0 +1,33 @@
+{% extends 'registro/graficas/plantillas/plantillaGraficaAnual.html.twig' %}
+
+{% block title %}
+    Gráfica de viento
+{% endblock %}
+
+{% block actionForm %}
+    {{ path('viento_anual') }}
+{% endblock %}
+
+{% block labelMediaDiurna %}
+    'Media diurna (km/h)'
+{% endblock %}
+
+{% block labelMediaNocturna %}
+    'Media Nocturna (km/h)'
+{% endblock %}
+
+{% block tituloGrafica %}
+    'Viento'
+{% endblock %}
+
+{% block labelMediaDiurnaVertical %}
+    'Media diurna (km/h)'
+{% endblock %}
+
+{% block labelMediaNocturnaVertical %}
+    'Media Nocturna (km/h)'
+{% endblock %}
+
+{% block tituloGraficaVertical %}
+    'Viento'
+{% endblock %}

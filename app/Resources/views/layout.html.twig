@@ -61,9 +61,6 @@
                             <a class="dropdown-item" href="{{ path('viento_semanal') }}">Semanal</a>
                         </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('configurar') }}"><i class="far fa-sun"></i> Configurar</a>
-                    </li>
                 </ul>
                 {% if app.user %}
                     <span class="navbar-text"><a href="{{ path('usuario_perfil') }}">¡Hola {{ app.user.nombre }}!</a></span>

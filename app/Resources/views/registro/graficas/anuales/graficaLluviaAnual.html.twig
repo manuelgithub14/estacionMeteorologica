@@ -1,0 +1,33 @@
+{% extends 'registro/graficas/plantillas/plantillaGraficaAnual.html.twig' %}
+
+{% block title %}
+    Gráfica de lluvia
+{% endblock %}
+
+{% block actionForm %}
+    {{ path('lluvia_anual') }}
+{% endblock %}
+
+{% block labelMediaDiurna %}
+    'Media diurna (mm/m2)'
+{% endblock %}
+
+{% block labelMediaNocturna %}
+    'Media Nocturna (mm/m2)'
+{% endblock %}
+
+{% block tituloGrafica %}
+    'Lluvia'
+{% endblock %}
+
+{% block labelMediaDiurnaVertical %}
+    'Media diurna (mm/m2)'
+{% endblock %}
+
+{% block labelMediaNocturnaVertical %}
+    'Media Nocturna (mm/m2)'
+{% endblock %}
+
+{% block tituloGraficaVertical %}
+    'Lluvia'
+{% endblock %}

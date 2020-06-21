@@ -16,6 +16,16 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class RegistroEstacionController extends Controller
 {
+    private $nombreMeses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
+    /**
+     * @return string[]
+     */
+    public function getNombreMeses()
+    {
+        return $this->nombreMeses;
+    }
+
     /**
      * @Route("/registros/{page}", name="registro_listar")
      * @Security("is_granted('ROLE_ADMIN')")
@@ -153,7 +163,6 @@ class RegistroEstacionController extends Controller
         $anioElegido = '';
 
         if ($request->getMethod() == 'POST') {
-            // submit con js al elegir el año, desde "registro/graficas/graficaTemperaturaAnual.html.twig"
             $anioElegido = $_POST['select'];
 
             $meses = $registrosRepository->findMesesPorAnio($anioElegido);
@@ -166,14 +175,107 @@ class RegistroEstacionController extends Controller
                     'mediaNocturna' => $mediaNocturna
                 ];
             }
-
-            dump($datos);
         }
 
-        return $this->render('registro/graficas/graficaTemperaturaAnual.html.twig', [
+        return $this->render('registro/graficas/anuales/graficaTemperaturaAnual.html.twig', [
             'datos' => $datos,
             'anios' => $anios,
             'anioElegido' => $anioElegido
+        ]);
+    }
+
+    /**
+     * @Route("/registro/temperaturaMensual", name="temperatura_mensual")
+     */
+    public function temperaturaMensualAction(Request $request, RegistrosRepository $registrosRepository)
+    {
+        $anios = $registrosRepository->findAnios();
+        $meses = '';
+        $datos = [];
+        $anioElegido = '';
+        $mesElegido = '';
+
+        if ($request->getMethod() == 'POST') {
+            if(!empty($_POST['selectAnio'])){
+                $anioElegido = $_POST['selectAnio'];
+                $meses = $registrosRepository->findMesesPorAnio($anioElegido);
+
+                if(!empty($_POST['selectMes'])){
+                    $mesElegido = $_POST['selectMes'];
+
+                    $semanas = $registrosRepository->findSemanasPorMesAnio($mesElegido, $anioElegido);
+                    foreach ($semanas as $semana){
+                        $mediaDiurna = $registrosRepository->findMediaDiurnaPorSemanaTemperatura($anioElegido, $mesElegido, $semana);
+                        $mediaNocturna = $registrosRepository->findMediaNocturnaPorSemanaTemperatura($anioElegido, $mesElegido, $semana);
+                        $datos[] = [
+                            'semana' => $semana,
+                            'mediaDiurna' => $mediaDiurna,
+                            'mediaNocturna' => $mediaNocturna
+                        ];
+                    }
+                }
+            }
+        }
+
+        return $this->render('registro/graficas/mensuales/graficaTemperaturaMensual.html.twig', [
+            'datos' => $datos,
+            'anios' => $anios,
+            'meses' => $meses,
+            'nombreMeses' => $this->getNombreMeses(),
+            'anioElegido' => $anioElegido,
+            'mesElegido' => $mesElegido
+        ]);
+    }
+
+    /**
+     * @Route("/registro/temperaturaSemanal", name="temperatura_semanal")
+     */
+    public function temperaturaSemanalAction(Request $request, RegistrosRepository $registrosRepository)
+    {
+        $anios = $registrosRepository->findAnios();
+        $meses = '';
+        $semanas = '';
+        $datos = [];
+        $anioElegido = '';
+        $mesElegido = '';
+        $semanaElegida = '';
+
+        if ($request->getMethod() == 'POST') {
+            if(!empty($_POST['selectAnio'])){
+                $anioElegido = $_POST['selectAnio'];
+                $meses = $registrosRepository->findMesesPorAnio($anioElegido);
+
+                if(!empty($_POST['selectMes'])){
+                    $mesElegido = $_POST['selectMes'];
+                    $semanas = $registrosRepository->findSemanasPorMesAnio($mesElegido, $anioElegido);
+
+                    if(!empty($_POST['selectSemana'])){
+                        $semanaElegida = $_POST['selectSemana'];
+
+                        $dias = $registrosRepository->findDiasPorSemanaMesAnio($semanaElegida, $mesElegido, $anioElegido);
+                        foreach ($dias as $dia){
+                            $mediaDiurna = $registrosRepository->findMediaDiurnaPorDiaTemperatura($anioElegido, $mesElegido, $semanaElegida, $dia);
+                            $mediaNocturna = $registrosRepository->findMediaNocturnaPorDiaTemperatura($anioElegido, $mesElegido, $semanaElegida, $dia);
+                            $datos[] = [
+                                'dia' => $dia,
+                                'mediaDiurna' => $mediaDiurna,
+                                'mediaNocturna' => $mediaNocturna
+                            ];
+                        }
+                    }
+                }
+            }
+        }
+
+        return $this->render('registro/graficas/semanales/graficaTemperaturaSemanal.html.twig', [
+            'datos' => $datos,
+            'anios' => $anios,
+            'meses' => $meses,
+            'nombreMeses' => $this->getNombreMeses(),
+            'semanas' => $semanas,
+            'anioElegido' => $anioElegido,
+            'mesElegido' => $mesElegido,
+            'semanaElegida' => $semanaElegida
         ]);
     }
 
@@ -188,7 +290,6 @@ class RegistroEstacionController extends Controller
         $anioElegido = '';
 
         if ($request->getMethod() == 'POST') {
-            // submit con js al elegir el año
             $anioElegido = $_POST['select'];
 
             $meses = $registrosRepository->findMesesPorAnio($anioElegido);
@@ -203,10 +304,105 @@ class RegistroEstacionController extends Controller
             }
         }
 
-        return $this->render('registro/graficas/graficaHumedadAnual.html.twig', [
+        return $this->render('registro/graficas/anuales/graficaHumedadAnual.html.twig', [
             'datos' => $datos,
             'anios' => $anios,
             'anioElegido' => $anioElegido
+        ]);
+    }
+
+    /**
+     * @Route("/registro/humedadMensual", name="humedad_mensual")
+     */
+    public function humedadMensualAction(Request $request, RegistrosRepository $registrosRepository)
+    {
+        $anios = $registrosRepository->findAnios();
+        $meses = '';
+        $datos = [];
+        $anioElegido = '';
+        $mesElegido = '';
+
+        if ($request->getMethod() == 'POST') {
+            if(!empty($_POST['selectAnio'])){
+                $anioElegido = $_POST['selectAnio'];
+                $meses = $registrosRepository->findMesesPorAnio($anioElegido);
+
+                if(!empty($_POST['selectMes'])){
+                    $mesElegido = $_POST['selectMes'];
+
+                    $semanas = $registrosRepository->findSemanasPorMesAnio($mesElegido, $anioElegido);
+                    foreach ($semanas as $semana){
+                        $mediaDiurna = $registrosRepository->findMediaDiurnaPorSemanaHumedad($anioElegido, $mesElegido, $semana);
+                        $mediaNocturna = $registrosRepository->findMediaNocturnaPorSemanaHumedad($anioElegido, $mesElegido, $semana);
+                        $datos[] = [
+                            'semana' => $semana,
+                            'mediaDiurna' => $mediaDiurna,
+                            'mediaNocturna' => $mediaNocturna
+                        ];
+                    }
+                }
+            }
+        }
+
+        return $this->render('registro/graficas/mensuales/graficaHumedadMensual.html.twig', [
+            'datos' => $datos,
+            'anios' => $anios,
+            'meses' => $meses,
+            'nombreMeses' => $this->getNombreMeses(),
+            'anioElegido' => $anioElegido,
+            'mesElegido' => $mesElegido
+        ]);
+    }
+
+    /**
+     * @Route("/registro/humedadSemanal", name="humedad_semanal")
+     */
+    public function humedadSemanalAction(Request $request, RegistrosRepository $registrosRepository)
+    {
+        $anios = $registrosRepository->findAnios();
+        $meses = '';
+        $semanas = '';
+        $datos = [];
+        $anioElegido = '';
+        $mesElegido = '';
+        $semanaElegida = '';
+
+        if ($request->getMethod() == 'POST') {
+            if(!empty($_POST['selectAnio'])){
+                $anioElegido = $_POST['selectAnio'];
+                $meses = $registrosRepository->findMesesPorAnio($anioElegido);
+
+                if(!empty($_POST['selectMes'])){
+                    $mesElegido = $_POST['selectMes'];
+                    $semanas = $registrosRepository->findSemanasPorMesAnio($mesElegido, $anioElegido);
+
+                    if(!empty($_POST['selectSemana'])){
+                        $semanaElegida = $_POST['selectSemana'];
+
+                        $dias = $registrosRepository->findDiasPorSemanaMesAnio($semanaElegida, $mesElegido, $anioElegido);
+                        foreach ($dias as $dia){
+                            $mediaDiurna = $registrosRepository->findMediaDiurnaPorDiaHumedad($anioElegido, $mesElegido, $semanaElegida, $dia);
+                            $mediaNocturna = $registrosRepository->findMediaNocturnaPorDiaHumedad($anioElegido, $mesElegido, $semanaElegida, $dia);
+                            $datos[] = [
+                                'dia' => $dia,
+                                'mediaDiurna' => $mediaDiurna,
+                                'mediaNocturna' => $mediaNocturna
+                            ];
+                        }
+                    }
+                }
+            }
+        }
+
+        return $this->render('registro/graficas/semanales/graficaHumedadSemanal.html.twig', [
+            'datos' => $datos,
+            'anios' => $anios,
+            'meses' => $meses,
+            'nombreMeses' => $this->getNombreMeses(),
+            'semanas' => $semanas,
+            'anioElegido' => $anioElegido,
+            'mesElegido' => $mesElegido,
+            'semanaElegida' => $semanaElegida
         ]);
     }
 
@@ -221,7 +417,6 @@ class RegistroEstacionController extends Controller
         $anioElegido = '';
 
         if ($request->getMethod() == 'POST') {
-            // submit con js al elegir el año
             $anioElegido = $_POST['select'];
 
             $meses = $registrosRepository->findMesesPorAnio($anioElegido);
@@ -236,10 +431,105 @@ class RegistroEstacionController extends Controller
             }
         }
 
-        return $this->render('registro/graficas/graficaLluviaAnual.html.twig', [
+        return $this->render('registro/graficas/anuales/graficaLluviaAnual.html.twig', [
             'datos' => $datos,
             'anios' => $anios,
             'anioElegido' => $anioElegido
+        ]);
+    }
+
+    /**
+     * @Route("/registro/lluviaMensual", name="lluvia_mensual")
+     */
+    public function lluviaMensualAction(Request $request, RegistrosRepository $registrosRepository)
+    {
+        $anios = $registrosRepository->findAnios();
+        $meses = '';
+        $datos = [];
+        $anioElegido = '';
+        $mesElegido = '';
+
+        if ($request->getMethod() == 'POST') {
+            if(!empty($_POST['selectAnio'])){
+                $anioElegido = $_POST['selectAnio'];
+                $meses = $registrosRepository->findMesesPorAnio($anioElegido);
+
+                if(!empty($_POST['selectMes'])){
+                    $mesElegido = $_POST['selectMes'];
+
+                    $semanas = $registrosRepository->findSemanasPorMesAnio($mesElegido, $anioElegido);
+                    foreach ($semanas as $semana){
+                        $mediaDiurna = $registrosRepository->findMediaDiurnaPorSemanaLluvia($anioElegido, $mesElegido, $semana);
+                        $mediaNocturna = $registrosRepository->findMediaNocturnaPorSemanaLluvia($anioElegido, $mesElegido, $semana);
+                        $datos[] = [
+                            'semana' => $semana,
+                            'mediaDiurna' => $mediaDiurna,
+                            'mediaNocturna' => $mediaNocturna
+                        ];
+                    }
+                }
+            }
+        }
+
+        return $this->render('registro/graficas/mensuales/graficaLluviaMensual.html.twig', [
+            'datos' => $datos,
+            'anios' => $anios,
+            'meses' => $meses,
+            'nombreMeses' => $this->getNombreMeses(),
+            'anioElegido' => $anioElegido,
+            'mesElegido' => $mesElegido
+        ]);
+    }
+
+    /**
+     * @Route("/registro/lluviaSemanal", name="lluvia_semanal")
+     */
+    public function lluviaSemanalAction(Request $request, RegistrosRepository $registrosRepository)
+    {
+        $anios = $registrosRepository->findAnios();
+        $meses = '';
+        $semanas = '';
+        $datos = [];
+        $anioElegido = '';
+        $mesElegido = '';
+        $semanaElegida = '';
+
+        if ($request->getMethod() == 'POST') {
+            if(!empty($_POST['selectAnio'])){
+                $anioElegido = $_POST['selectAnio'];
+                $meses = $registrosRepository->findMesesPorAnio($anioElegido);
+
+                if(!empty($_POST['selectMes'])){
+                    $mesElegido = $_POST['selectMes'];
+                    $semanas = $registrosRepository->findSemanasPorMesAnio($mesElegido, $anioElegido);
+
+                    if(!empty($_POST['selectSemana'])){
+                        $semanaElegida = $_POST['selectSemana'];
+
+                        $dias = $registrosRepository->findDiasPorSemanaMesAnio($semanaElegida, $mesElegido, $anioElegido);
+                        foreach ($dias as $dia){
+                            $mediaDiurna = $registrosRepository->findMediaDiurnaPorDiaLluvia($anioElegido, $mesElegido, $semanaElegida, $dia);
+                            $mediaNocturna = $registrosRepository->findMediaNocturnaPorDiaLluvia($anioElegido, $mesElegido, $semanaElegida, $dia);
+                            $datos[] = [
+                                'dia' => $dia,
+                                'mediaDiurna' => $mediaDiurna,
+                                'mediaNocturna' => $mediaNocturna
+                            ];
+                        }
+                    }
+                }
+            }
+        }
+
+        return $this->render('registro/graficas/semanales/graficaLluviaSemanal.html.twig', [
+            'datos' => $datos,
+            'anios' => $anios,
+            'meses' => $meses,
+            'nombreMeses' => $this->getNombreMeses(),
+            'semanas' => $semanas,
+            'anioElegido' => $anioElegido,
+            'mesElegido' => $mesElegido,
+            'semanaElegida' => $semanaElegida
         ]);
     }
 
@@ -254,7 +544,6 @@ class RegistroEstacionController extends Controller
         $anioElegido = '';
 
         if ($request->getMethod() == 'POST') {
-            // submit con js al elegir el año
             $anioElegido = $_POST['select'];
 
             $meses = $registrosRepository->findMesesPorAnio($anioElegido);
@@ -269,10 +558,105 @@ class RegistroEstacionController extends Controller
             }
         }
 
-        return $this->render('registro/graficas/graficaVientoAnual.html.twig', [
+        return $this->render('registro/graficas/anuales/graficaVientoAnual.html.twig', [
             'datos' => $datos,
             'anios' => $anios,
             'anioElegido' => $anioElegido
+        ]);
+    }
+
+    /**
+     * @Route("/registro/vientoMensual", name="viento_mensual")
+     */
+    public function vientoMensualAction(Request $request, RegistrosRepository $registrosRepository)
+    {
+        $anios = $registrosRepository->findAnios();
+        $meses = '';
+        $datos = [];
+        $anioElegido = '';
+        $mesElegido = '';
+
+        if ($request->getMethod() == 'POST') {
+            if(!empty($_POST['selectAnio'])){
+                $anioElegido = $_POST['selectAnio'];
+                $meses = $registrosRepository->findMesesPorAnio($anioElegido);
+
+                if(!empty($_POST['selectMes'])){
+                    $mesElegido = $_POST['selectMes'];
+
+                    $semanas = $registrosRepository->findSemanasPorMesAnio($mesElegido, $anioElegido);
+                    foreach ($semanas as $semana){
+                        $mediaDiurna = $registrosRepository->findMediaDiurnaPorSemanaViento($anioElegido, $mesElegido, $semana);
+                        $mediaNocturna = $registrosRepository->findMediaNocturnaPorSemanaViento($anioElegido, $mesElegido, $semana);
+                        $datos[] = [
+                            'semana' => $semana,
+                            'mediaDiurna' => $mediaDiurna,
+                            'mediaNocturna' => $mediaNocturna
+                        ];
+                    }
+                }
+            }
+        }
+
+        return $this->render('registro/graficas/mensuales/graficaVientoMensual.html.twig', [
+            'datos' => $datos,
+            'anios' => $anios,
+            'meses' => $meses,
+            'nombreMeses' => $this->getNombreMeses(),
+            'anioElegido' => $anioElegido,
+            'mesElegido' => $mesElegido
+        ]);
+    }
+
+    /**
+     * @Route("/registro/vientoSemanal", name="viento_semanal")
+     */
+    public function vientoSemanalAction(Request $request, RegistrosRepository $registrosRepository)
+    {
+        $anios = $registrosRepository->findAnios();
+        $meses = '';
+        $semanas = '';
+        $datos = [];
+        $anioElegido = '';
+        $mesElegido = '';
+        $semanaElegida = '';
+
+        if ($request->getMethod() == 'POST') {
+            if(!empty($_POST['selectAnio'])){
+                $anioElegido = $_POST['selectAnio'];
+                $meses = $registrosRepository->findMesesPorAnio($anioElegido);
+
+                if(!empty($_POST['selectMes'])){
+                    $mesElegido = $_POST['selectMes'];
+                    $semanas = $registrosRepository->findSemanasPorMesAnio($mesElegido, $anioElegido);
+
+                    if(!empty($_POST['selectSemana'])){
+                        $semanaElegida = $_POST['selectSemana'];
+
+                        $dias = $registrosRepository->findDiasPorSemanaMesAnio($semanaElegida, $mesElegido, $anioElegido);
+                        foreach ($dias as $dia){
+                            $mediaDiurna = $registrosRepository->findMediaDiurnaPorDiaViento($anioElegido, $mesElegido, $semanaElegida, $dia);
+                            $mediaNocturna = $registrosRepository->findMediaNocturnaPorDiaViento($anioElegido, $mesElegido, $semanaElegida, $dia);
+                            $datos[] = [
+                                'dia' => $dia,
+                                'mediaDiurna' => $mediaDiurna,
+                                'mediaNocturna' => $mediaNocturna
+                            ];
+                        }
+                    }
+                }
+            }
+        }
+
+        return $this->render('registro/graficas/semanales/graficaVientoSemanal.html.twig', [
+            'datos' => $datos,
+            'anios' => $anios,
+            'meses' => $meses,
+            'nombreMeses' => $this->getNombreMeses(),
+            'semanas' => $semanas,
+            'anioElegido' => $anioElegido,
+            'mesElegido' => $mesElegido,
+            'semanaElegida' => $semanaElegida
         ]);
     }
 }

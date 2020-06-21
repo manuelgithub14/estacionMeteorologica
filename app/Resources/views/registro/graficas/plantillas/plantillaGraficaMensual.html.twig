@@ -1,0 +1,200 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+    <form id="formDatosPeriodo" action="{% block actionForm %}{% endblock %}" method="post">
+        <div>
+            <select id="selectAnios" name="selectAnio">
+                <option value="">Elija un año...</option>
+                {% for anio in anios %}
+                    {% if anioElegido == anio[1] %}
+                        <option value="{{ anio[1] }}" selected>{{ anio[1] }}</option>
+                    {% else %}
+                        <option value="{{ anio[1] }}">{{ anio[1] }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <select id="selectMeses" name="selectMes">
+                <option value="">Elija un mes...</option>
+                {% for mes in meses %}
+                    {% if mesElegido == mes[1] %}
+                        <option value="{{ mes[1] }}" selected>{{ nombreMeses[mes[1] - 1] }}</option>
+                    {% else %}
+                        <option value="{{ mes[1] }}">{{ nombreMeses[mes[1] - 1] }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+    </form>
+
+    <canvas id="miGrafica"></canvas>
+{% endblock %}
+
+{% block javascripts3 %}
+    <script>
+        $(function () {
+            var datos = {{ datos|json_encode|raw }};
+            var anioElegido = '' || {{ anioElegido|json_encode|raw }};
+            var mesElegido = '' || {{ mesElegido|json_encode|raw }}
+
+            if(datos.length !== 0){
+                if(window.screen.width < 700){
+                    generarGraficaVertical(datos, anioElegido, mesElegido);
+                }else{
+                    generarGrafica(datos, anioElegido, mesElegido);
+                }
+            }
+
+            $('#selectAnios').change(function (e) {
+                $('#formDatosPeriodo').submit();
+            });
+
+            $('#selectMeses').change(function (e) {
+                $('#formDatosPeriodo').submit();
+            });
+        });
+
+        function generarGrafica(datos, anioElegido, mesElegido) {
+            var meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+            var arraySemanas = [];
+            var arrayMediasDiurnas = [];
+            var arrayMediasNocturnas = [];
+            var arrayColoresDiurnos = [];
+            var arrayColoresNocturnos = [];
+
+            for(let i = 0; i < datos.length; i++){
+                arraySemanas.push("Semana " + datos[i]['semana'][1]);
+                arrayMediasDiurnas.push(datos[i]['mediaDiurna'][0][1]);
+                arrayMediasNocturnas.push(datos[i]['mediaNocturna'][0][1]);
+                arrayColoresDiurnos.push('rgba(255, 99, 132, 0.6)');
+                arrayColoresNocturnos.push('rgba(54, 162, 235, 0.6)');
+            }
+
+            // Opciones globales
+            Chart.defaults.global.defaultFontFamily = 'Roboto-Condensed';
+            Chart.defaults.global.defaultFontSize = 15;
+            Chart.defaults.global.defaultFontColor = '#00492B';
+
+            // Gráfica
+            let miCanvas= document.getElementById("miGrafica").getContext('2d');
+
+            let miGrafica = new Chart(miCanvas, {
+                type: 'bar',
+                data:{
+                    labels:arraySemanas,
+                    datasets:[{
+                        label: {% block labelMediaDiurna %}{% endblock %},
+                        data:arrayMediasDiurnas,
+                        backgroundColor: arrayColoresDiurnos,
+                        borderWidth: 2,
+                        borderColor: '#777',
+                        hoverBorderWidth: 2,
+                        hoverBorderColor: '#000'
+                    },
+                        {
+                            label: {% block labelMediaNocturna %}{% endblock %},
+                            data:arrayMediasNocturnas,
+                            backgroundColor:arrayColoresNocturnos,
+                            borderWidth: 2,
+                            borderColor: '#777',
+                            hoverBorderWidth: 2,
+                            hoverBorderColor: '#000'
+                        }]
+                },
+                options:{
+                    title:{
+                        display: true,
+                        text: {% block tituloGrafica %}{% endblock %} + ' de ' + meses[mesElegido-1] + ' en ' + anioElegido,
+                        fontSize: 20
+                    },
+                    legend:{
+                        display: true,
+                        position: 'top',
+                        align: 'center',
+                        labels: {
+                            fontColor: '#000'
+                        }
+                    },
+                    // Info de cada 'barra'
+                    tooltip:{
+                        enabled: true
+                    },
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        function generarGraficaVertical(datos, anioElegido, mesElegido) {
+            var meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+            var arrayMeses = [];
+            var arrayMediasDiurnas = [];
+            var arrayMediasNocturnas = [];
+            var arrayColoresDiurnos = [];
+            var arrayColoresNocturnos = [];
+
+            for(let i = 0; i < datos.length; i++){
+                arrayMeses.push("Semana " + datos[i]['semana'][1]);
+                arrayMediasDiurnas.push(datos[i]['mediaDiurna'][0][1]);
+                arrayMediasNocturnas.push(datos[i]['mediaNocturna'][0][1]);
+                arrayColoresDiurnos.push('rgba(255, 99, 132, 0.6)');
+                arrayColoresNocturnos.push('rgba(54, 162, 235, 0.6)');
+            }
+
+            // Opciones globales
+            Chart.defaults.global.defaultFontFamily = 'Roboto-Condensed';
+            Chart.defaults.global.defaultFontSize = 12;
+            Chart.defaults.global.defaultFontColor = '#00492B';
+
+            // Gráfica
+            let miCanvas= document.getElementById("miGrafica").getContext('2d');
+
+            let miGrafica = new Chart(miCanvas, {
+                type: 'horizontalBar',
+                data:{
+                    labels:arrayMeses,
+                    datasets:[{
+                        label: {% block labelMediaDiurnaVertical %}{% endblock %},
+                        data:arrayMediasDiurnas,
+                        backgroundColor: arrayColoresDiurnos,
+                        borderWidth: 2,
+                        borderColor: '#777',
+                        hoverBorderWidth: 2,
+                        hoverBorderColor: '#000'
+                    },
+                        {
+                            label: {% block labelMediaNocturnaVertical %}{% endblock %},
+                            data:arrayMediasNocturnas,
+                            backgroundColor:arrayColoresNocturnos,
+                            borderWidth: 2,
+                            borderColor: '#777',
+                            hoverBorderWidth: 2,
+                            hoverBorderColor: '#000'
+                        }]
+                },
+                options:{
+                    title:{
+                        display: true,
+                        text: {% block tituloGraficaVertical %}{% endblock %} + ' de ' + meses[mesElegido-1] + ' en ' + anioElegido,
+                        fontSize: 15
+                    },
+                    legend:{
+                        display: true,
+                        position: 'top',
+                        align: 'center',
+                        labels: {
+                            fontColor: '#000'
+                        }
+                    },
+                    // Info de cada 'barra'
+                    tooltip:{
+                        enabled: true
+                    },
+                    maintainAspectRatio: false
+                }
+            });
+        }
+    </script>
+{% endblock %}

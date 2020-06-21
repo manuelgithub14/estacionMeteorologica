@@ -1,0 +1,33 @@
+{% extends 'registro/graficas/plantillas/plantillaGraficaMensual.html.twig' %}
+
+{% block title %}
+    Gráfica de temperatura
+{% endblock %}
+
+{% block actionForm %}
+    {{ path('temperatura_mensual') }}
+{% endblock %}
+
+{% block labelMediaDiurna %}
+    'Media diurna (ºC)'
+{% endblock %}
+
+{% block labelMediaNocturna %}
+    'Media Nocturna (ºC)'
+{% endblock %}
+
+{% block tituloGrafica %}
+    'Temperatura'
+{% endblock %}
+
+{% block labelMediaDiurnaVertical %}
+    'Media diurna (ºC)'
+{% endblock %}
+
+{% block labelMediaNocturnaVertical %}
+    'Media Nocturna (ºC)'
+{% endblock %}
+
+{% block tituloGraficaVertical %}
+    'Temperatura'
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'registro/graficas/plantillas/plantillaGraficaSemanal.html.twig' %}
+
+{% block title %}
+    Gráfica de humedad
+{% endblock %}
+
+{% block actionForm %}
+    {{ path('humedad_semanal') }}
+{% endblock %}
+
+{% block labelMediaDiurna %}
+    'Media diurna (%)'
+{% endblock %}
+
+{% block labelMediaNocturna %}
+    'Media Nocturna (%)'
+{% endblock %}
+
+{% block tituloGrafica %}
+    'Humedad'
+{% endblock %}
+
+{% block labelMediaDiurnaVertical %}
+    'Media diurna (%)'
+{% endblock %}
+
+{% block labelMediaNocturnaVertical %}
+    'Media Nocturna (%)'
+{% endblock %}
+
+{% block tituloGraficaVertical %}
+    'Humedad'
+{% endblock %}
