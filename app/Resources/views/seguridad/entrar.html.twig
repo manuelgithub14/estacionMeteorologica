@@ -1,16 +1,35 @@
 {% extends 'layout.html.twig' %}
 
 {% block content %}
-    <h1>Entrar en la aplicación</h1>
-
     {% if error %}
         <div class="alert alert-danger">
             {{ error.messageKey | trans({}, 'security') }}
         </div>
     {% endif %}
-    <form action="{{ path('usuario_entrar') }}" method="post">
-        <input type="text" name="_username" placeholder="Nombre de usuario" value="{{ ultimo_usuario }}"{% if not ultimo_usuario %} autofocus="autofocus"{% endif %}>
-        <input type="password" name="_password" placeholder="Contraseña"{% if ultimo_usuario %} autofocus="autofocus"{% endif %}>
-        <button type="submit" class="btn btn-primary">Entrar</button>
+    <form action="{{ path('usuario_entrar') }}" method="post" class="loginForm">
+        <h1>Login</h1>
+        <div class="bloqueEntrada">
+            <input type="text" name="_username" value="{{ ultimo_usuario }}" class="{% if ultimo_usuario %}focus{% endif %}">
+            <span data-placeholder="Usuario" ></span>
+        </div>
+        <div class="bloqueEntrada">
+            <input type="password" name="_password">
+            <span data-placeholder="Contraseña"></span>
+        </div>
+        <button type="submit" class="btnLogin">Entrar</button>
     </form>
+{% endblock %}
+
+{% block javascripts3 %}
+    <script>
+        $("#inputUsuario").val("");
+        $(".bloqueEntrada input").on("focus",function () {
+            $(this).addClass("focus");
+        });
+        $(".bloqueEntrada input").on("blur",function () {
+            if($(this).val() == ""){
+                $(this).removeClass("focus");
+            }
+        });
+    </script>
 {% endblock %}

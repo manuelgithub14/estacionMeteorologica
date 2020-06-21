@@ -1,0 +1,11 @@
+:root{
+    --blanco: #F5F5F5;
+    --negro: #000000;
+    --verde: #00492B;
+    --amarillo: #EDED89;
+    --rojo: #ff0000;
+    --azul: #1E90FF;
+    --imgFondoWeb: url("../../recursos/imagenes/Fondo-Placa-circuito.jpg");
+    --fuentePrimaria: Roboto-Condensed;
+    --fuenteSecundaria: sans-serif;
+}

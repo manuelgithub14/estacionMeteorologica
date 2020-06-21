@@ -1,19 +1,31 @@
+@import "componentes/fuentes.css";
+@import "componentes/variables.css";
+@import "login.css";
+
+/* GENERAL */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body{
-    background-image: url("../imagenes/Fondo-Placa-circuito.jpg");
+    background-image: var(--imgFondoWeb);
     background-repeat: no-repeat;
     background-size: cover;
+    font-family: var(--fuentePrimaria), var(--fuenteSecundaria);
 }
 
 main{
-    background-color: #F5F5F5;
-    box-shadow: 0 0 6px #000000;
+    background-color: var(--blanco);
+    box-shadow: 0 0 6px var(--negro);
     margin-left: auto;
     margin-right: auto;
-    width: 80%;
+    width: 85%;
 }
 
 header{
-    background-color: #EDED89;
+    background-color: var(--amarillo);
 }
 
 header img{
@@ -24,30 +36,40 @@ footer{
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: 1em;
 }
 
 footer img{
     width: 2em;
 }
 
+/* BARRA NAVEGACION */
 nav.navbar, footer{
-    background-color: #00492B;
-    color: #FFFFFF;
-    font: 16px "Roboto Condensed", sans-serif;
+    background-color: var(--verde);
+    color: var(--blanco);
     line-height: 2;
     padding: 0.50em;
 }
 
 nav.navbar a.nav-link:hover{
-    background-color: #FFFFFF;
-    color: #000000;
+    background-color: var(--blanco);
+    color: var(--negro);
 }
 
 nav.navbar ul.navbar-nav li a.nav-link:hover{
-    background-color: #FFFFFF;
-    color: #000000;
+    background-color: var(--blanco);
+    color: var(--negro);
 }
 
+nav.navbar ul.navbar-nav li{
+    margin-right: 0.6em;
+}
+
+.navbar-toggler-icon{
+    width: 0.8em;
+}
+
+/* PORTADA */
 .bloqueDatos{
     padding: 1em;
     display: flex;
@@ -65,26 +87,14 @@ nav.navbar ul.navbar-nav li a.nav-link:hover{
 }
 
 .bloqueDirViento{
-    display: flex;
-    justify-content: center;
-    padding: 1em;
-    margin: 1em;
+    text-align: center;
 }
 
-.bloqueDirViento p{
-    box-shadow: 0 0 6px #000000;
-    font-size: 1.5em;
-    display: flex;
-    border: 1px solid black;
+.bloqueDirViento img{
+    box-shadow: 0 0 6px var(--negro);
+    border: 1px solid var(--negro);
+    border-radius: 15%;
     width: 50%;
-    height: 5em;
-    justify-content: center;
-    align-items: center;
-}
-
-.bloqueDirViento p span, .bloqueDatosSecundario p span{
-    font-size: 1.6em;
-    margin-left: 1em;
 }
 
 .bloqueDatosSecundario{
@@ -94,19 +104,213 @@ nav.navbar ul.navbar-nav li a.nav-link:hover{
 }
 
 .bloqueDatosSecundario p{
-    box-shadow: 0 0 6px #000000;
+    box-shadow: 0 0 6px var(--negro);
     justify-content: center;
     align-items: center;
     display: flex;
     flex-basis: 40%;
     font-size: 1.5em;
-    border: 1px solid black;
+    border: 1px solid var(--negro);
     border-radius: 15%;
     padding: 1em;
-    height: 5em;
+    line-height: 6;
     width: 8em;
+    margin-bottom: 2em;
 }
 
+.bloqueDatosSecundario p span{
+    font-size: 1.4em;
+    margin-left: 1em;
+    font-weight: bold;
+}
+
+.alerta{
+    color: var(--rojo);
+}
+
+.sinAlerta{
+    color: var(--azul);
+}
+
+/* CONTENIDO */
 .container{
     min-height: 100vh;
+}
+
+.btn-success, .btn-info, .btn-danger, .btn-warning{
+    margin-bottom: 1em;
+}
+
+.titulo, div.alert{
+    margin-top: 0.5em;
+}
+
+#miTabla{
+    margin-right: auto;
+    margin-left: auto;
+    overflow-x: paged-x;
+}
+
+ul.pagination{
+    justify-content: center;
+}
+
+#formDatosPeriodo{
+    margin-top: 1em;
+    text-align: center;
+}
+
+#formDatosPeriodo div{
+    margin-bottom: 1em;
+}
+
+#formDatosPeriodo select{
+    width: 100%;
+}
+
+/* MEDIA QUERYS */
+@media (max-width: 1530px) {
+    /* BARRA NAVEGACION */
+    .navbar-brand{
+        margin: 0;
+    }
+
+    .nav-link, .navbar-text, .btn{
+        font-size: 0.8em;
+    }
+
+    /* PORTADA */
+    .bloqueFechaDatos p{
+        font-size: 2.3em;
+    }
+
+    .bloqueDatosSecundario p{
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 1250px) {
+    /* BARRA NAVEGACION */
+    .nav-link, .navbar-text, .btn, .dropdown-item{
+        font-size: 0.7em;
+    }
+
+    /* PORTADA */
+    .bloqueFechaDatos p{
+        font-size: 2em;
+    }
+
+    .bloqueDatosSecundario p{
+        font-size: 1em;
+    }
+
+    /* CONTENIDO */
+    .titulo{
+        font-size: 2em;
+    }
+}
+
+@media (max-width: 1135px) {
+    /* BARRA NAVEGACION */
+    nav.navbar ul.navbar-nav li{
+        margin-right: 0.5em;
+    }
+
+    .nav-link, .navbar-text, .btn, .dropdown-item{
+        font-size: 0.58em;
+    }
+
+    /* PORTADA */
+    .bloqueFechaDatos p{
+        font-size: 1.8em;
+    }
+
+    .bloqueDatosSecundario p{
+        font-size: 0.8em;
+    }
+}
+
+@media (max-width: 805px) {
+    /* BARRA NAVEGACION */
+    .nav-link, .navbar-text, .btn, .dropdown-item{
+        font-size: 0.6em;
+    }
+
+    /* PORTADA */
+    .bloqueFechaDatos p{
+        font-size: 1.5em;
+    }
+
+    .bloqueDatosSecundario p{
+        font-size: 0.6em;
+        line-height: 10;
+    }
+
+    /* CONTENIDO */
+    .titulo{
+        font-size: 1.4em;
+    }
+
+    #miTabla{
+        font-size: 0.8em;
+    }
+
+    /* GENERAL */
+    footer{
+        font-size: 0.8em;
+    }
+}
+
+@media (max-width: 640px) {
+    /* PORTADA */
+    .bloqueFechaDatos p{
+        font-size: 1.2em;
+    }
+
+    .bloqueDatosSecundario{
+        flex-direction: column;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .bloqueDirViento{
+        padding-top: 0;
+    }
+
+    .bloqueDatosSecundario p{
+        width: 100%;
+        line-height: 3;
+        font-size: 0.6em;
+    }
+
+    /* CONTENIDO */
+    .titulo{
+        font-size: 1.2em;
+    }
+
+    #miTabla{
+        font-size: 0.6em;
+        text-align: center;
+    }
+
+    #miTabla *{
+        padding: 0.4em;
+    }
+
+    ul.pagination{
+        font-size: 0.5em;
+    }
+
+    ul.pagination *{
+        padding: 0.4em;
+    }
+
+    /* GENERAL */
+    main{
+        width: 95%;
+    }
+
+    footer{
+        font-size: 0.4em;
+    }
 }
