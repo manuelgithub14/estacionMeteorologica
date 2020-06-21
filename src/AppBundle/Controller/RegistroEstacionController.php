@@ -132,9 +132,7 @@ class RegistroEstacionController extends Controller
 
         if($form->isSubmitted() && $form->isValid()){
             $this->getDoctrine()->getManager()->flush();
-
-            $anio = $datos['lista'];
-            dump($anio); // ANIO ESTA VACIO
+            $anio = $form->get('lista')->getData();
 
             return $this->redirectToRoute('registro_eliminar_anio', ['anio' => $anio]);
         }
